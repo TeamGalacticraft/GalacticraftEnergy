@@ -22,13 +22,17 @@
 
 package com.hrznstudio.galacticraft.energy.impl;
 
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
+import alexiil.mc.lib.attributes.misc.NullVariant;
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An instance of a {@link Capacitor} that will always fail.
  */
-public enum EmptyCapacitor implements Capacitor {
+public enum EmptyCapacitor implements Capacitor, NullVariant {
     /**
      * If returned from {@link alexiil.mc.lib.attributes.DefaultedAttribute}#getFirst consider it {@code null}.
      */
@@ -51,5 +55,10 @@ public enum EmptyCapacitor implements Capacitor {
     @Override
     public int getMaxCapacity() {
         return 0;
+    }
+
+    @Override
+    public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
+        return null;
     }
 }

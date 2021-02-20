@@ -22,11 +22,14 @@
 
 package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.EnergyHandler;
 
 public class TREnergyWrapper implements Capacitor, EnergyTransferable {
@@ -54,6 +57,11 @@ public class TREnergyWrapper implements Capacitor, EnergyTransferable {
     @Override
     public int getMaxCapacity() {
         return ((int) this.handler.getMaxStored());
+    }
+
+    @Override
+    public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
+        return null;
     }
 
     @Override

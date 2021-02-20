@@ -22,6 +22,10 @@
 
 package com.hrznstudio.galacticraft.energy.api;
 
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
+import org.jetbrains.annotations.Nullable;
+
 public interface CapacitorView {
     /**
      * @return The energy type of this capacitor
@@ -61,5 +65,20 @@ public interface CapacitorView {
      */
     default int getMaxCapacityAs(EnergyType type) {
         return this.getEnergyType().convertTo(type, this.getMaxCapacity());
+    }
+
+    /**
+     * Adds a listener that will be fired when the capacitor's energy value is changed
+     * @param listener The listener to add
+     * @param removalToken A token that will be fired when the listener is removed from the capacitor
+     * @return A token that represents the listener, or null if the listener could not be added.
+     */
+    @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken);
+
+    /**
+     * A listener for the Capacitor
+     */
+    interface CapacitorListener {
+        void onChanged(CapacitorView capacitorView);
     }
 }

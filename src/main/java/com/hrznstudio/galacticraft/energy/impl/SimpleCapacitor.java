@@ -22,14 +22,21 @@
 
 package com.hrznstudio.galacticraft.energy.impl;
 
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.misc.Saveable;
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 import net.minecraft.nbt.CompoundTag;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable {
+    private final Map<CapacitorListener, ListenerRemovalToken> listeners = new HashMap<>();
     private final EnergyType type;
     private final int capacity;
     private int energy;
@@ -57,6 +64,14 @@ public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable 
     @Override
     public int getMaxCapacity() {
         return this.capacity;
+    }
+
+    @Override
+    public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
+        this.listeners.put(listener, removalToken);
+        return () -> {
+            if (this.listeners.remove(listener) == null) throw new AssertionError();
+        };
     }
 
     @Override

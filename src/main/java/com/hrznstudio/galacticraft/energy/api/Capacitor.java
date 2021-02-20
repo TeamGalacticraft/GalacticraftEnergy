@@ -22,10 +22,11 @@
 
 package com.hrznstudio.galacticraft.energy.api;
 
+import alexiil.mc.lib.attributes.Convertible;
 import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.impl.CapacitorWrapper;
 
-public interface Capacitor extends CapacitorView {
+public interface Capacitor extends CapacitorView, Convertible {
     /**
      * Sets the amount of energy in this capacitor
      * @param amount The amount of energy to set
@@ -140,5 +141,10 @@ public interface Capacitor extends CapacitorView {
 
     default CapacitorWrapper getWrapper() {
         return new CapacitorWrapper(this);
+    }
+
+    @Override
+    default <T> T convertTo(Class<T> otherType) {
+        return Convertible.offer(otherType, this.getWrapper());
     }
 }

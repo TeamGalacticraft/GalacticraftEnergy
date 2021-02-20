@@ -23,13 +23,14 @@
 package com.hrznstudio.galacticraft.energy.impl;
 
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.misc.NullVariant;
 import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
 /**
  * An instance of {@link EnergyInsertable} that will always reject the insertion of energy.
  */
-public enum RejectingEnergyInsertable implements EnergyInsertable {
+public enum RejectingEnergyInsertable implements EnergyInsertable, NullVariant {
     NULL;
 
     @Override

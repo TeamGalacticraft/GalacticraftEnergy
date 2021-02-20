@@ -23,13 +23,14 @@
 package com.hrznstudio.galacticraft.energy.impl;
 
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.misc.NullVariant;
 import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
 /**
  * An instance of {@link EnergyExtractable} that will always fail.
  */
-public enum EmptyEnergyExtractable implements EnergyExtractable {
+public enum EmptyEnergyExtractable implements EnergyExtractable, NullVariant {
     /**
      * If returned from {@link alexiil.mc.lib.attributes.DefaultedAttribute}#getFirst consider it {@code null}.
      */
