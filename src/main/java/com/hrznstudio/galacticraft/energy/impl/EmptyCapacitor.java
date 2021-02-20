@@ -34,7 +34,7 @@ public enum EmptyCapacitor implements Capacitor {
 
     @Override
     public EnergyType getEnergyType() {
-        return EnergyType.NULL;
+        return EmptyEnergyType.INSTANCE;
     }
 
     @Override

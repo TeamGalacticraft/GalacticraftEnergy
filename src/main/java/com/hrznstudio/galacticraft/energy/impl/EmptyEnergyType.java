@@ -26,7 +26,7 @@ import com.hrznstudio.galacticraft.energy.api.EnergyType;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 
-public enum RejectingEnergyType implements EnergyType {
+public enum EmptyEnergyType implements EnergyType {
     INSTANCE;
 
     @Override
