@@ -25,22 +25,53 @@ package com.hrznstudio.galacticraft.energy.api;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 
+/**
+ * Each energy type is a unit of energy.
+ * They should all be able to be converted to {@link com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType}
+ * using the methods {@link #convertFromDefault(int)} and {@link #convertToDefault(int)}
+ */
 public interface EnergyType {
     default MutableText display(int amount) {
         return new LiteralText(String.valueOf(amount));
     }
 
+    /**
+     * Converts energy from {@code type} to this energy type
+     * @param type The type of energy to convert from
+     * @param amount The amount of energy to convert
+     * @return The amount of energy that was converted
+     * @see #convertFromDefault(int)
+     */
     default int convertFrom(EnergyType type, int amount) {
         if (type == this) return amount;
         return this.convertFromDefault(type.convertToDefault(amount));
     }
 
+    /**
+     * Converts energy from this energy type to {@code type}
+     * @param type The type of energy to convert to
+     * @param amount The amount of energy to convert
+     * @return The amount of energy that was converted
+     * @see #convertToDefault(int)
+     */
     default int convertTo(EnergyType type, int amount) {
         if (type == this) return amount;
         return type.convertFromDefault(this.convertToDefault(amount));
     }
 
+    /**
+     * Converts energy to {@link com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType}
+     * @param amount The amount of energy to convert
+     * @return The amount of energy that was converted
+     * @see com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType
+     */
     int convertToDefault(int amount);
 
+    /**
+     * Converts energy from {@link com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType} to this energy type
+     * @param amount The amount of energy to convert
+     * @return The amount of energy that was converted
+     * @see com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType
+     */
     int convertFromDefault(int amount);
 }

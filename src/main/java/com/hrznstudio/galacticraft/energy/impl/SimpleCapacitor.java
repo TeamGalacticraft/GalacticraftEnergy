@@ -39,49 +39,31 @@ public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable 
         this.capacity = capacity;
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public void setEnergy(int amount) {
         this.energy = amount;
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public EnergyType getEnergyType() {
         return this.type;
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public int getEnergy() {
         return this.energy;
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public int getMaxCapacity() {
         return this.capacity;
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public int tryExtract(EnergyType type, int amount, Simulation simulation) {
         return this.extract(type, amount, simulation);
     }
 
-    /**
-     * @inheritDoc
-     */
     @Override
     public int tryInsert(EnergyType type, int amount, Simulation simulation) {
         return this.insert(type, amount, simulation);

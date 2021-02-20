@@ -25,7 +25,13 @@ package com.hrznstudio.galacticraft.energy.impl;
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
+/**
+ * An instance of a {@link Capacitor} that will always fail.
+ */
 public enum EmptyCapacitor implements Capacitor {
+    /**
+     * If returned from {@link alexiil.mc.lib.attributes.DefaultedAttribute}#getFirst consider it {@code null}.
+     */
     NULL;
 
     @Override

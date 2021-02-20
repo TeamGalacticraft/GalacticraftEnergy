@@ -27,7 +27,13 @@ import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
+/**
+ *
+ */
 public class CapacitorWrapper implements EnergyTransferable {
+    /**
+     * The internal {@link Capacitor} to delegate to
+     */
     private final Capacitor capacitor;
 
     public CapacitorWrapper(Capacitor capacitor) {

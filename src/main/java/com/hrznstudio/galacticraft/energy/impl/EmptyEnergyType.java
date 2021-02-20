@@ -26,6 +26,9 @@ import com.hrznstudio.galacticraft.energy.api.EnergyType;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 
+/**
+ * An energy type that will always return {@code zero} when converted.
+ */
 public enum EmptyEnergyType implements EnergyType {
     INSTANCE;
 

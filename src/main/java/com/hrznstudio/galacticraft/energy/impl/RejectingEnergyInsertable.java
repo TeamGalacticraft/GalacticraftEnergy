@@ -26,6 +26,9 @@ import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
+/**
+ * An instance of {@link EnergyInsertable} that will always reject the insertion of energy.
+ */
 public enum RejectingEnergyInsertable implements EnergyInsertable {
     NULL;
 

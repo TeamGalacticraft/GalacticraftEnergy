@@ -26,7 +26,13 @@ import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
 
+/**
+ * An instance of {@link EnergyExtractable} that will always fail.
+ */
 public enum EmptyEnergyExtractable implements EnergyExtractable {
+    /**
+     * If returned from {@link alexiil.mc.lib.attributes.DefaultedAttribute}#getFirst consider it {@code null}.
+     */
     NULL;
 
     @Override

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.mixin;
+package com.hrznstudio.galacticraft.energy.internal.mixin;
 
 import alexiil.mc.lib.attributes.ItemAttributeAdder;
 import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
@@ -36,6 +36,9 @@ import team.reborn.energy.Energy;
 
 import java.util.Objects;
 
+/**
+ * Handles the loading of TR energy compatibility code
+ */
 @Mixin(value = GalacticraftEnergy.class, remap = false)
 public abstract class TRCompatibilityMixin {
     @Inject(method = "onInitialize", at = @At("RETURN"))

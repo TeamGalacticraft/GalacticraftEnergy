@@ -30,10 +30,32 @@ import com.hrznstudio.galacticraft.energy.impl.EmptyEnergyExtractable;
 import com.hrznstudio.galacticraft.energy.impl.RejectingEnergyInsertable;
 import net.fabricmc.api.ModInitializer;
 
+/**
+ * Contains all the attributes for this mod.
+ */
 public class GalacticraftEnergy implements ModInitializer {
-    public static final DefaultedAttribute<CapacitorView> CAPACITOR_VIEW = Attributes.createDefaulted(CapacitorView.class, EmptyCapacitor.NULL);
+    /**
+     * Capacitor attribute
+     * Allows getting max and current energy levels and setting the amount stored
+     */
     public static final DefaultedAttribute<Capacitor> CAPACITOR = Attributes.createDefaulted(Capacitor.class, EmptyCapacitor.NULL);
+
+    /**
+     * Capacitor view attribute
+     * Allows getting max and current energy levels
+     */
+    public static final DefaultedAttribute<CapacitorView> CAPACITOR_VIEW = Attributes.createDefaulted(CapacitorView.class, EmptyCapacitor.NULL);
+
+    /**
+     * Energy Extractable attribute
+     * Allows extracting energy
+     */
     public static final DefaultedAttribute<EnergyExtractable> EXTRACTABLE = Attributes.createDefaulted(EnergyExtractable.class, EmptyEnergyExtractable.NULL);
+
+    /**
+     * Energy Extractable attribute
+     * Allows inserting energy
+     */
     public static final DefaultedAttribute<EnergyInsertable> INSERTABLE = Attributes.createDefaulted(EnergyInsertable.class, RejectingEnergyInsertable.NULL);
 
     @Override

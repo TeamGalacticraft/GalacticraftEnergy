@@ -31,6 +31,9 @@ import com.hrznstudio.galacticraft.energy.api.EnergyType;
  * 1 Plank -> 750.0
  */
 public enum TREnergyType implements EnergyType {
+    /**
+     * TechReborn Energy type
+     */
     INSTANCE;
 
     @Override

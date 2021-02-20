@@ -37,9 +37,9 @@ public interface CapacitorView {
     int getEnergy();
 
     /**
-     * Returns the amount of energy in the capacitor in {@param type} units
+     * Returns the amount of energy in the capacitor in {@code type} units
      * @param type The type of energy to convert to
-     * @return The amount of energy in this capacitor in {@param type} units
+     * @return The amount of energy in this capacitor in {@code type} units
      * @see #getEnergy()
      */
     default int getEnergyAs(EnergyType type) {
@@ -54,9 +54,9 @@ public interface CapacitorView {
     int getMaxCapacity();
 
     /**
-     * Returns the maximum amount of energy in this capacitor in {@param type} units
+     * Returns the maximum amount of energy in this capacitor in {@code type} units
      * @param type The type of energy to convert to
-     * @return The maximum amount of energy in this capacitor in {@param type} units
+     * @return The maximum amount of energy in this capacitor in {@code type} units
      * @see #getMaxCapacity()
      */
     default int getMaxCapacityAs(EnergyType type) {

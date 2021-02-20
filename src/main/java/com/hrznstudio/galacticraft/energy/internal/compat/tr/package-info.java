@@ -20,6 +20,10 @@
  * SOFTWARE.
  */
 
+/**
+ * Internal wrapper components for compatibility with TR Energy.
+ * You shouldn't have to touch these classes.
+ */
 @ApiStatus.Internal
 package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 

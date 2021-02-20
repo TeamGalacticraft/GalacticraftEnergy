@@ -20,9 +20,10 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy;
+package com.hrznstudio.galacticraft.energy.internal;
 
 import net.fabricmc.loader.api.FabricLoader;
+import org.jetbrains.annotations.ApiStatus;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -30,6 +31,10 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Internal mixin plugin to handle loading of compatibility modules.
+ */
+@ApiStatus.Internal
 public class GalacticraftEnergyMixinPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String mixinPackage) {
@@ -42,7 +47,7 @@ public class GalacticraftEnergyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.GalacticraftEnergyMixinPlugin")) {
+        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.internal.GalacticraftEnergyMixinPlugin")) {
             return FabricLoader.getInstance().isModLoaded("team_reborn_energy");
         }
         return true;
