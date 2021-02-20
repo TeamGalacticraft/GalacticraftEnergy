@@ -2,6 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.hrznstudio.galacticraft.energy.internal.mixin",
+  "plugin": "com.hrznstudio.galacticraft.energy.internal.GalacticraftEnergyMixinPlugin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "TRCompatibilityMixin"

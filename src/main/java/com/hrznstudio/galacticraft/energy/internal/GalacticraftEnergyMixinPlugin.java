@@ -47,10 +47,10 @@ public class GalacticraftEnergyMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.internal.GalacticraftEnergyMixinPlugin")) {
+        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.internal.mixin.TRCompatibilityMixin")) {
             return FabricLoader.getInstance().isModLoaded("team_reborn_energy");
         }
-        return true;
+        return false;
     }
 
     @Override
