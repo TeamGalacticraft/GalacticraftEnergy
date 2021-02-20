@@ -1,9 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "io.github.marcus8448.mods.galacticraft-energy.mixin",
+  "package": "com.hrznstudio.galacticraft.energy.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "TRCompatibilityMixin"
   ],
   "client": [
   ],

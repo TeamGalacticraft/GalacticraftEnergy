@@ -26,21 +26,21 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 
 public interface EnergyType {
-    EnergyType NULL = other -> false;
-
-    boolean isCompatible(EnergyType other);
-
     default MutableText display(int amount) {
         return new LiteralText(String.valueOf(amount));
     }
 
     default int convertFrom(EnergyType type, int amount) {
         if (type == this) return amount;
-        return type.convertTo(this, amount);
+        return this.convertFromDefault(type.convertToDefault(amount));
     }
 
     default int convertTo(EnergyType type, int amount) {
         if (type == this) return amount;
-        return type.convertFrom(this, amount);
+        return type.convertFromDefault(this.convertToDefault(amount));
     }
+
+    int convertToDefault(int amount);
+
+    int convertFromDefault(int amount);
 }
