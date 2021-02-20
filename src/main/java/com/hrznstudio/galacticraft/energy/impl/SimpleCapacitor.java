@@ -23,11 +23,13 @@
 package com.hrznstudio.galacticraft.energy.impl;
 
 import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.misc.Saveable;
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
 import com.hrznstudio.galacticraft.energy.api.EnergyType;
+import net.minecraft.nbt.CompoundTag;
 
-public class SimpleCapacitor implements Capacitor, EnergyTransferable {
+public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable {
     private final EnergyType type;
     private final int capacity;
     private int energy;
@@ -83,5 +85,16 @@ public class SimpleCapacitor implements Capacitor, EnergyTransferable {
     @Override
     public int tryInsert(EnergyType type, int amount, Simulation simulation) {
         return this.insert(type, amount, simulation);
+    }
+
+    @Override
+    public CompoundTag toTag(CompoundTag tag) {
+        tag.putInt("Energy", energy);
+        return tag;
+    }
+
+    @Override
+    public void fromTag(CompoundTag tag) {
+        this.energy = tag.getInt("Energy");
     }
 }

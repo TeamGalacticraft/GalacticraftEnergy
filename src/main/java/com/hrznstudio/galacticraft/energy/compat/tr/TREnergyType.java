@@ -30,16 +30,16 @@ import com.hrznstudio.galacticraft.energy.api.EnergyType;
  * 1 Coal -> 4000.0
  * 1 Plank -> 750.0
  */
-public enum TREnergyType implements EnergyType { //todo: conversion
+public enum TREnergyType implements EnergyType {
     INSTANCE;
 
     @Override
     public int convertToDefault(int amount) {
-        return 0;
+        return (int) (amount * 9.6);
     }
 
     @Override
     public int convertFromDefault(int amount) {
-        return 0;
+        return (int) (amount * 0.10416666666666667);
     }
 }

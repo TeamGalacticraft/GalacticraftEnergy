@@ -30,9 +30,11 @@ import net.minecraft.text.MutableText;
  * Galacticraft Joules (gJ)
  *
  * Reference values:
- * 1 Coal ->
+ * 1 Coal -> 38400 gJ [120gJ/t]
+ * T1 machine = 30gJ/t
+ * Basic solar panel = 1 T1 machine
  */
-public enum DefaultEnergyType implements EnergyType { //todo: energy values
+public enum DefaultEnergyType implements EnergyType {
     INSTANCE;
 
     @Override
@@ -47,12 +49,12 @@ public enum DefaultEnergyType implements EnergyType { //todo: energy values
 
     @Override
     public int convertToDefault(int amount) {
-        return 0;
+        return amount;
     }
 
     @Override
     public int convertFromDefault(int amount) {
-        return 0;
+        return amount;
     }
 
     // https://stackoverflow.com/a/22186845

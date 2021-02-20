@@ -1,9 +1,10 @@
 plugins {
-    id 'fabric-loom' version '0.5-SNAPSHOT'
+    id 'fabric-loom' version '0.6-SNAPSHOT'
     id 'org.cadixdev.licenser' version '0.5.0'
     id 'maven-publish'
 }
 
+import net.fabricmc.loom.util.OperatingSystem;
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
@@ -83,12 +84,18 @@ publishing {
             artifact(javadocJar)
         }
     }
-    repositories {
-        maven {
-            url "s3://cdn.hrzn.studio/maven"
-            authentication {
-                awsIm(AwsImAuthentication)
+    if (OperatingSystem.isCIBuild()) {
+        repositories {
+            maven {
+                url "s3://cdn.hrzn.studio/maven"
+                authentication {
+                    awsIm(AwsImAuthentication)
+                }
             }
+        }
+    } else {
+        repositories {
+            mavenLocal()
         }
     }
 }

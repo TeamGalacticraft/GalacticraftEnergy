@@ -58,11 +58,16 @@ public class BlockCapacitorViewTRWrapper implements EnergyStorage {
 
     @Override
     public EnergyTier getTier() {
-        return EnergyTier.INFINITE; //todo tiers or max I/O
+        return EnergyTier.INFINITE;
     }
 
     @Override
     public double getMaxInput(EnergySide side) {
+        return 0;
+    }
+
+    @Override
+    public double getMaxOutput(EnergySide side) {
         return 0;
     }
 }

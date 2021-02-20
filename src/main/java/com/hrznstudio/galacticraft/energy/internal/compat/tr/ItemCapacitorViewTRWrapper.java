@@ -58,4 +58,9 @@ public class ItemCapacitorViewTRWrapper implements EnergyStorage {
     public double getMaxInput(EnergySide side) {
         return 0;
     }
+
+    @Override
+    public double getMaxOutput(EnergySide side) {
+        return 0;
+    }
 }
