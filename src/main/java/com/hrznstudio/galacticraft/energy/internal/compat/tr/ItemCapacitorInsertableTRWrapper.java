@@ -20,51 +20,47 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
-import net.fabricmc.loader.api.FabricLoader;
-import org.objectweb.asm.tree.ClassNode;
-import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
-import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import alexiil.mc.lib.attributes.Simulation;
+import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
+import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
+import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-import java.util.List;
-import java.util.Set;
+public class ItemCapacitorInsertableTRWrapper implements EnergyStorage {
+    private final EnergyInsertable insertable;
 
-public class GalacticraftEnergyMixinPlugin implements IMixinConfigPlugin {
-    @Override
-    public void onLoad(String mixinPackage) {
+    public ItemCapacitorInsertableTRWrapper(EnergyInsertable insertable) {
+        this.insertable = insertable;
     }
 
     @Override
-    public String getRefMapperConfig() {
-        return null;
+    public double getStored(EnergySide energySide) {
+        return 0;
     }
 
     @Override
-    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.GalacticraftEnergyMixinPlugin")) {
-            return FabricLoader.getInstance().isModLoaded("team_reborn_energy");
-        }
-        return true;
+    public void setStored(double v) {
+        this.insertable.tryInsert(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
+    public double getMaxStoredPower() {
+        return 1024 - this.insertable.tryInsert(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
-    public List<String> getMixins() {
-        return null;
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE;
     }
 
     @Override
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
-
-    @Override
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
+    public double getMaxOutput(EnergySide side) {
+        return 0;
     }
 }

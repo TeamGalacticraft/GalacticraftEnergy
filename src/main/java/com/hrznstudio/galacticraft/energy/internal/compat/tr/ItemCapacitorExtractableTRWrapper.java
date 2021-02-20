@@ -23,46 +23,44 @@
 package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
 import alexiil.mc.lib.attributes.Simulation;
-import com.hrznstudio.galacticraft.energy.api.Capacitor;
-import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
-import com.hrznstudio.galacticraft.energy.api.EnergyType;
+import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
+import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
-import team.reborn.energy.EnergyHandler;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-public class TREnergyWrapper implements Capacitor, EnergyTransferable {
-    private final EnergyHandler handler;
+public class ItemCapacitorExtractableTRWrapper implements EnergyStorage {
+    private final EnergyExtractable extractable;
 
-    public TREnergyWrapper(EnergyHandler handler) {
-        this.handler = handler;
+    public ItemCapacitorExtractableTRWrapper(EnergyExtractable extractable) {
+        this.extractable = extractable;
     }
 
     @Override
-    public void setEnergy(int amount) {
-        this.handler.set(amount);
+    public double getStored(EnergySide energySide) {
+        return this.extractable.tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
-    public EnergyType getEnergyType() {
-        return TREnergyType.INSTANCE;
+    public void setStored(double v) {
+        this.extractable.tryExtract(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
-    public int getEnergy() {
-        return ((int) this.handler.getEnergy());
+    public double getMaxStoredPower() {
+        return this.getStored(EnergySide.UNKNOWN);
     }
 
     @Override
-    public int getMaxCapacity() {
-        return ((int) this.handler.getMaxStored());
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE;
     }
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
-        return ((int) this.handler.extract(amount));
-    }
-
-    @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
-        return amount - ((int) this.handler.insert(amount));
+    public double getMaxInput(EnergySide side) {
+        return 0;
     }
 }

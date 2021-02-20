@@ -20,26 +20,38 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.compat.tr;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
-import com.hrznstudio.galacticraft.energy.api.EnergyType;
+import com.hrznstudio.galacticraft.energy.api.Capacitor;
+import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-/**
- * TechReborn Energy
- * Reference Values:
- * 1 Coal -> 4000.0
- * 1 Plank -> 750.0
- */
-public enum TREnergyType implements EnergyType { //todo: conversion
-    INSTANCE;
+public class ItemCapacitorTRWrapper implements EnergyStorage {
+    private final Capacitor capacitor;
 
-    @Override
-    public int convertToDefault(int amount) {
-        return 0;
+    public ItemCapacitorTRWrapper(Capacitor capacitor) {
+        this.capacitor = capacitor;
     }
 
     @Override
-    public int convertFromDefault(int amount) {
-        return 0;
+    public double getStored(EnergySide energySide) {
+        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
+    }
+
+    @Override
+    public void setStored(double v) {
+        this.capacitor.setEnergy(this.capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int)v));
+    }
+
+    @Override
+    public double getMaxStoredPower() {
+        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
+    }
+
+    @Override
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE; //todo tiers or max I/O
     }
 }

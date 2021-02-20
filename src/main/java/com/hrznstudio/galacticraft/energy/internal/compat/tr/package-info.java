@@ -20,26 +20,7 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.compat.tr;
+@ApiStatus.Internal
+package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
-import com.hrznstudio.galacticraft.energy.api.EnergyType;
-
-/**
- * TechReborn Energy
- * Reference Values:
- * 1 Coal -> 4000.0
- * 1 Plank -> 750.0
- */
-public enum TREnergyType implements EnergyType { //todo: conversion
-    INSTANCE;
-
-    @Override
-    public int convertToDefault(int amount) {
-        return 0;
-    }
-
-    @Override
-    public int convertFromDefault(int amount) {
-        return 0;
-    }
-}
+import org.jetbrains.annotations.ApiStatus;

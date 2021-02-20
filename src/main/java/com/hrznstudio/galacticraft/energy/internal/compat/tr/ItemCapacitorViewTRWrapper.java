@@ -20,51 +20,42 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
-import net.fabricmc.loader.api.FabricLoader;
-import org.objectweb.asm.tree.ClassNode;
-import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
-import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+import com.hrznstudio.galacticraft.energy.api.CapacitorView;
+import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-import java.util.List;
-import java.util.Set;
+public class ItemCapacitorViewTRWrapper implements EnergyStorage {
+    private final CapacitorView capacitor;
 
-public class GalacticraftEnergyMixinPlugin implements IMixinConfigPlugin {
-    @Override
-    public void onLoad(String mixinPackage) {
+    public ItemCapacitorViewTRWrapper(CapacitorView capacitor) {
+        this.capacitor = capacitor;
     }
 
     @Override
-    public String getRefMapperConfig() {
-        return null;
+    public double getStored(EnergySide energySide) {
+        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
     }
 
     @Override
-    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.equals("com.hrznstudio.galacticraft.energy.GalacticraftEnergyMixinPlugin")) {
-            return FabricLoader.getInstance().isModLoaded("team_reborn_energy");
-        }
-        return true;
+    public void setStored(double v) {
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
+    public double getMaxStoredPower() {
+        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
     }
 
     @Override
-    public List<String> getMixins() {
-        return null;
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE; //todo tiers or max I/O
     }
 
     @Override
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
-
-    @Override
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
+    public double getMaxInput(EnergySide side) {
+        return 0;
     }
 }
