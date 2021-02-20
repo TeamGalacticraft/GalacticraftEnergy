@@ -25,8 +25,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.minecraft}+build.${project.yarn}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader}"
 
-    modImplementation "alexiil.mc.lib:libblockattributes-core:${project.lba}"
-    modImplementation "teamreborn:energy:${project.tr_energy}"
+    modCompileOnly "alexiil.mc.lib:libblockattributes-core:${project.lba}"
+    modCompileOnly "teamreborn:energy:${project.tr_energy}"
 }
 
 processResources {
