@@ -73,9 +73,9 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = 'com.hrznstudio'
-            artifactId = 'galacticraft-energy'
+            artifactId = 'Galacticraft-Energy'
 
-            artifact(jar) {
+            artifact(remapJar) {
                 builtBy remapJar
             }
             artifact(sourcesJar) {
