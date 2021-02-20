@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "galacticraft-energy",
+  "version": "${version}",
+
+  "name": "Galacticraft Energy",
+  "description": "An energy API that utilizes LibBlockAttributes.",
+
+  "contact": {
+    "sources": "https://github.com/StellarHorizons/Galacticraft-Energy",
+    "homepage": "https://hrznstudio.com/",
+    "issues": "https://github.com/StellarHorizons/Galacticraft-Energy/issues"
+  },
+
+  "authors": [
+    {
+      "name": "Horizon Studio",
+      "contact": {
+        "homepage": "https://hrznstudio.com",
+        "discord": "https://discord.gg/8eVjQrb"
+      }
+    }
+  ],
+
+  "contributors": [
+    {
+      "name": "marcus8448",
+      "contact": {
+        "homepage": "https://github.com/marcus8448"
+      }
+    }
+  ],
+
+  "license": "MIT",
+  "icon": "assets/galacticraft-energy/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.hrznstudio.galacticraft.energy.GalacticraftEnergy"
+    ]
+  },
+  "mixins": [
+    "galacticraft-energy.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.0",
+    "minecraft": ">=1.16",
+    "libblockattributes_core": ">=0.8"
+  }
+}
