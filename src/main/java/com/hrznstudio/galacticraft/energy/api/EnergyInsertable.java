@@ -33,4 +33,9 @@ public interface EnergyInsertable {
      * @return The amount of energy that could not be inserted
      */
     int tryInsert(EnergyType type, int amount, Simulation simulation);
+
+    default EnergyInsertable asPureInsertable() {
+        //noinspection FunctionalExpressionCanBeFolded
+        return EnergyInsertable.this::tryInsert;
+    }
 }

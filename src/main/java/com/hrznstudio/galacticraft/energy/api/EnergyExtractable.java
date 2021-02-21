@@ -33,4 +33,9 @@ public interface EnergyExtractable {
      * @return The amount of energy that was extracted (in the specified energy type)
      */
     int tryExtract(EnergyType type, int amount, Simulation simulation);
+
+    default EnergyExtractable asPureExtractable() {
+        //noinspection FunctionalExpressionCanBeFolded
+        return EnergyExtractable.this::tryExtract;
+    }
 }
