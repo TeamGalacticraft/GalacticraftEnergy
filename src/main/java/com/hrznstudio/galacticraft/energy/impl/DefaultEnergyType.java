@@ -30,7 +30,7 @@ import net.minecraft.text.MutableText;
  * Galacticraft Joules (gJ)
  *
  * Reference values:
- * 1 Coal -> 38400 gJ [120gJ/t]
+ * 1 Coal = 38400 gJ [120gJ/t]
  * T1 machine = 30gJ/t
  * Basic solar panel = 1 T1 machine
  */

@@ -27,8 +27,8 @@ import com.hrznstudio.galacticraft.energy.api.EnergyType;
 /**
  * TechReborn Energy
  * Reference Values:
- * 1 Coal -> 4000.0
- * 1 Plank -> 750.0
+ * 1 Coal = 4000.0
+ * 1 Plank = 750.0
  */
 public enum TREnergyType implements EnergyType {
     /**
