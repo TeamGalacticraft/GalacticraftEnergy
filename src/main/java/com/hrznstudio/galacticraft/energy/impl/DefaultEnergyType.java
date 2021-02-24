@@ -28,7 +28,7 @@ import net.minecraft.text.MutableText;
 
 /**
  * Galacticraft Joules (gJ)
- *
+ * <p>
  * Reference values:
  * 1 Coal = 38400 gJ [120gJ/t]
  * T1 machine = 30gJ/t
@@ -40,9 +40,9 @@ public enum DefaultEnergyType implements EnergyType {
     @Override
     public MutableText display(int amount) {
         if (amount > 1_000_000) {
-            return new LiteralText((round((((double)amount) / 1_000_000.0), 3)) + "G gJ");
+            return new LiteralText((round((((double) amount) / 1_000_000.0), 3)) + "G gJ");
         } else if (amount > 10_000) {
-            return new LiteralText((round((((double)amount) / 1_000.0), 1)) + "K gJ");
+            return new LiteralText((round((((double) amount) / 1_000.0), 1)) + "K gJ");
         }
         return new LiteralText(amount + " gJ");
     }
@@ -58,7 +58,7 @@ public enum DefaultEnergyType implements EnergyType {
     }
 
     // https://stackoverflow.com/a/22186845
-    private static double round (double value, int precision) {
+    private static double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }

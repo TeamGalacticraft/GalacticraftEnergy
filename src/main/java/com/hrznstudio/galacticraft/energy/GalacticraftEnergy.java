@@ -24,7 +24,10 @@ package com.hrznstudio.galacticraft.energy;
 
 import alexiil.mc.lib.attributes.Attributes;
 import alexiil.mc.lib.attributes.DefaultedAttribute;
-import com.hrznstudio.galacticraft.energy.api.*;
+import com.hrznstudio.galacticraft.energy.api.Capacitor;
+import com.hrznstudio.galacticraft.energy.api.CapacitorView;
+import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
+import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
 import com.hrznstudio.galacticraft.energy.impl.EmptyCapacitor;
 import com.hrznstudio.galacticraft.energy.impl.EmptyEnergyExtractable;
 import com.hrznstudio.galacticraft.energy.impl.RejectingEnergyInsertable;

@@ -63,14 +63,14 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.CAPACITOR.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack)i))) != null;
+                return GalacticraftEnergy.CAPACITOR.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
             } else if (i instanceof BlockEntity) {
                 return GalacticraftEnergy.CAPACITOR.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorTRWrapper(GalacticraftEnergy.CAPACITOR.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack)o))));
+                return new ItemCapacitorTRWrapper(GalacticraftEnergy.CAPACITOR.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -79,14 +79,14 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack)i))) != null;
+                return GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
             } else if (i instanceof BlockEntity) {
                 return GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorViewTRWrapper(GalacticraftEnergy.CAPACITOR_VIEW.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack)o))));
+                return new ItemCapacitorViewTRWrapper(GalacticraftEnergy.CAPACITOR_VIEW.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorViewTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -95,14 +95,14 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.INSERTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack)i))) != null;
+                return GalacticraftEnergy.INSERTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
             } else if (i instanceof BlockEntity) {
                 return GalacticraftEnergy.INSERTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorInsertableTRWrapper(GalacticraftEnergy.INSERTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack)o))));
+                return new ItemCapacitorInsertableTRWrapper(GalacticraftEnergy.INSERTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorInsertableTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -111,14 +111,14 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack)i))) != null;
+                return GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
             } else if (i instanceof BlockEntity) {
                 return GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorExtractableTRWrapper(GalacticraftEnergy.EXTRACTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack)o))));
+                return new ItemCapacitorExtractableTRWrapper(GalacticraftEnergy.EXTRACTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorExtractableTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -126,15 +126,17 @@ public abstract class TRCompatibilityMixin {
         });
     }
 
-    private static @Unique <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TREnergyWrapper, T> function) {
+    @Unique
+    private static <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TREnergyWrapper, T> function) {
         if (pos instanceof WrapperBlockPos) return;
         BlockEntity entity = world.getBlockEntity(pos);
         if (Energy.valid(entity)) {
-            to.offer(function.apply(new TREnergyWrapper(Energy.of(entity))));
+            to.offer(function.apply(new TREnergyWrapper(Energy.of(entity).side(to.getSearchDirection()))));
         }
     }
 
-    private static @Unique <T> ItemAttributeAdder<T> createTRItemAdder(Function<TREnergyWrapper, T> function) {
+    @Unique
+    private static <T> ItemAttributeAdder<T> createTRItemAdder(Function<TREnergyWrapper, T> function) {
         return (reference, limitedConsumer, itemAttributeList) -> {
             if (reference instanceof BreakingWrapperReference) return;
             if (Energy.valid(reference.get())) {

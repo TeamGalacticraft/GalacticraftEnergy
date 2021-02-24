@@ -35,6 +35,7 @@ public interface CapacitorView {
 
     /**
      * Returns the amount of energy in this capacitor
+     *
      * @return The amount of energy in this capacitor
      * @see #getEnergyType()
      */
@@ -42,6 +43,7 @@ public interface CapacitorView {
 
     /**
      * Returns the amount of energy in the capacitor in {@code type} units
+     *
      * @param type The type of energy to convert to
      * @return The amount of energy in this capacitor in {@code type} units
      * @see #getEnergy()
@@ -52,6 +54,7 @@ public interface CapacitorView {
 
     /**
      * Returns the maximum amount of energy in this capacitor
+     *
      * @return The maximum amount of energy in this capacitor
      * @see #getEnergyType()
      */
@@ -59,6 +62,7 @@ public interface CapacitorView {
 
     /**
      * Returns the maximum amount of energy in this capacitor in {@code type} units
+     *
      * @param type The type of energy to convert to
      * @return The maximum amount of energy in this capacitor in {@code type} units
      * @see #getMaxCapacity()
@@ -69,7 +73,8 @@ public interface CapacitorView {
 
     /**
      * Adds a listener that will be fired when the capacitor's energy value is changed
-     * @param listener The listener to add
+     *
+     * @param listener     The listener to add
      * @param removalToken A token that will be fired when the listener is removed from the capacitor
      * @return A token that represents the listener, or null if the listener could not be added.
      */

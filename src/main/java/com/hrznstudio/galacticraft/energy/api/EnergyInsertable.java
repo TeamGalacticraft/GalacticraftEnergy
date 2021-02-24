@@ -27,8 +27,9 @@ import alexiil.mc.lib.attributes.Simulation;
 public interface EnergyInsertable {
     /**
      * Inserts energy into this {@link EnergyInsertable}
-     * @param type The type of energy to insert
-     * @param amount The amount of energy in the specified energy type to insert
+     *
+     * @param type       The type of energy to insert
+     * @param amount     The amount of energy in the specified energy type to insert
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that could not be inserted
      */

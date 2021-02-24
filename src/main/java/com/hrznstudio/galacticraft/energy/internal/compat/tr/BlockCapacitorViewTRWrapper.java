@@ -24,7 +24,6 @@ package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
 import alexiil.mc.lib.attributes.SearchOptions;
 import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
-import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

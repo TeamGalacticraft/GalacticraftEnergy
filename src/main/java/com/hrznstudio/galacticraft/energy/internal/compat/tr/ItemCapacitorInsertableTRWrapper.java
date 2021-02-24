@@ -23,11 +23,8 @@
 package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
 import alexiil.mc.lib.attributes.Simulation;
-import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
 import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;

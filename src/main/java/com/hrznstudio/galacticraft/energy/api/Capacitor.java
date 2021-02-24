@@ -29,13 +29,15 @@ import com.hrznstudio.galacticraft.energy.impl.CapacitorWrapper;
 public interface Capacitor extends CapacitorView, Convertible {
     /**
      * Sets the amount of energy in this capacitor
+     *
      * @param amount The amount of energy to set
      */
     void setEnergy(int amount);
 
     /**
      * Inserts energy from this capacitor.
-     * @param amount The amount of energy in the capacitor's native energy type to extract
+     *
+     * @param amount     The amount of energy in the capacitor's native energy type to extract
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that could not be inserted (in the specified energy type)
      * @see #getEnergyType()
@@ -48,8 +50,9 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Inserts energy from this capacitor.
-     * @param type The type of energy to insert
-     * @param amount The amount of energy in the specified energy type to insert
+     *
+     * @param type       The type of energy to insert
+     * @param amount     The amount of energy in the specified energy type to insert
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that could not be inserted (in the specified energy type)
      * @see #insert(int, Simulation)
@@ -60,7 +63,8 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Inserts energy from this capacitor.
-     * @param type The type of energy to insert
+     *
+     * @param type   The type of energy to insert
      * @param amount The amount of energy in the specified energy type to insert
      * @return The amount of energy that could not be inserted (in the specified energy type)
      * @see #insert(int, Simulation)
@@ -71,6 +75,7 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Inserts energy from this capacitor.
+     *
      * @param amount The amount of energy in the capacitor's native energy type to insert
      * @return The amount of energy that could not be inserted
      * @see #insert(int, Simulation)
@@ -82,21 +87,23 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Extracts energy from this capacitor.
-     * @param amount The amount of energy in the capacitor's native energy type to extract
+     *
+     * @param amount     The amount of energy in the capacitor's native energy type to extract
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that was extracted (in the specified energy type)
      * @see #getEnergyType()
      */
     default int extract(int amount, Simulation simulation) {
         amount = Math.min(this.getEnergy(), amount);
-        if (simulation.isAction())this.setEnergy(this.getEnergy() - amount);
+        if (simulation.isAction()) this.setEnergy(this.getEnergy() - amount);
         return amount;
     }
 
     /**
      * Extracts energy from this capacitor.
-     * @param type The type of energy to extract
-     * @param amount The amount of energy in the specified energy type to extract
+     *
+     * @param type       The type of energy to extract
+     * @param amount     The amount of energy in the specified energy type to extract
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that was extracted (in the specified energy type)
      * @see #extract(int, Simulation)
@@ -107,7 +114,8 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Extracts energy from this capacitor.
-     * @param type The type of energy to extract
+     *
+     * @param type   The type of energy to extract
      * @param amount The amount of energy in the specified energy type to extract
      * @return The amount of energy that was extracted (in the specified energy type)
      * @see #extract(int, Simulation)
@@ -118,6 +126,7 @@ public interface Capacitor extends CapacitorView, Convertible {
 
     /**
      * Extracts energy from this capacitor.
+     *
      * @param amount The amount of energy in the capacitor's native energy type to extract
      * @return The amount of energy that was extracted
      * @see #extract(int, Simulation)

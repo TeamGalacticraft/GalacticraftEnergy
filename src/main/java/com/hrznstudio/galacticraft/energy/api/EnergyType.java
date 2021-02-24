@@ -37,7 +37,8 @@ public interface EnergyType {
 
     /**
      * Converts energy from {@code type} to this energy type
-     * @param type The type of energy to convert from
+     *
+     * @param type   The type of energy to convert from
      * @param amount The amount of energy to convert
      * @return The amount of energy that was converted
      * @see #convertFromDefault(int)
@@ -49,7 +50,8 @@ public interface EnergyType {
 
     /**
      * Converts energy from this energy type to {@code type}
-     * @param type The type of energy to convert to
+     *
+     * @param type   The type of energy to convert to
      * @param amount The amount of energy to convert
      * @return The amount of energy that was converted
      * @see #convertToDefault(int)
@@ -61,6 +63,7 @@ public interface EnergyType {
 
     /**
      * Converts energy to {@link com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType}
+     *
      * @param amount The amount of energy to convert
      * @return The amount of energy that was converted
      * @see com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType
@@ -69,6 +72,7 @@ public interface EnergyType {
 
     /**
      * Converts energy from {@link com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType} to this energy type
+     *
      * @param amount The amount of energy to convert
      * @return The amount of energy that was converted
      * @see com.hrznstudio.galacticraft.energy.impl.DefaultEnergyType

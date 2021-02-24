@@ -50,7 +50,7 @@ public class BlockCapacitorTRWrapper implements EnergyStorage {
     @Override
     public void setStored(double v) {
         Capacitor capacitor = GalacticraftEnergy.CAPACITOR.getFirst(this.world, this.pos);
-        capacitor.setEnergy(capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int)v));
+        capacitor.setEnergy(capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int) v));
     }
 
     @Override

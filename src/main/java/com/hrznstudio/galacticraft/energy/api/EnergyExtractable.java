@@ -27,8 +27,9 @@ import alexiil.mc.lib.attributes.Simulation;
 public interface EnergyExtractable {
     /**
      * Extracts energy from this {@link EnergyExtractable}.
-     * @param type The type of energy to extract
-     * @param amount The amount of energy in the specified energy type to extract
+     *
+     * @param type       The type of energy to extract
+     * @param amount     The amount of energy in the specified energy type to extract
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that was extracted (in the specified energy type)
      */

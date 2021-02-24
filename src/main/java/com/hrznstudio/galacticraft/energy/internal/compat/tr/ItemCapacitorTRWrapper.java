@@ -42,7 +42,7 @@ public class ItemCapacitorTRWrapper implements EnergyStorage {
 
     @Override
     public void setStored(double v) {
-        this.capacitor.setEnergy(this.capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int)v));
+        this.capacitor.setEnergy(this.capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int) v));
     }
 
     @Override

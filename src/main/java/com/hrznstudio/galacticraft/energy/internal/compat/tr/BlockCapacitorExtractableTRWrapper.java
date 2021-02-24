@@ -22,10 +22,12 @@
 
 package com.hrznstudio.galacticraft.energy.internal.compat.tr;
 
+import alexiil.mc.lib.attributes.SearchOptions;
 import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
@@ -42,7 +44,7 @@ public class BlockCapacitorExtractableTRWrapper implements EnergyStorage {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos).tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
