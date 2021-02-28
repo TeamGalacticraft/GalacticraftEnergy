@@ -49,6 +49,9 @@ public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable 
     @Override
     public void setEnergy(int amount) {
         this.energy = amount;
+        for (CapacitorListener listener : this.listeners.keySet()) {
+            listener.onChanged(this);
+        }
     }
 
     @Override

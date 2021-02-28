@@ -32,7 +32,11 @@ import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.EnergyHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TREnergyWrapper implements Capacitor, EnergyTransferable {
+    private final Map<CapacitorListener, ListenerRemovalToken> listeners = new HashMap<>();
     private final EnergyHandler handler;
 
     public TREnergyWrapper(EnergyHandler handler) {
@@ -42,6 +46,9 @@ public class TREnergyWrapper implements Capacitor, EnergyTransferable {
     @Override
     public void setEnergy(int amount) {
         this.handler.set(amount);
+        for (CapacitorListener listener : listeners.keySet()) {
+            listener.onChanged(this);
+        }
     }
 
     @Override
@@ -61,7 +68,8 @@ public class TREnergyWrapper implements Capacitor, EnergyTransferable {
 
     @Override
     public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
-        return null;
+        this.listeners.put(listener, removalToken);
+        return () -> listeners.remove(listener);
     }
 
     @Override
