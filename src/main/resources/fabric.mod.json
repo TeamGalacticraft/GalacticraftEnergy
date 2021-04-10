@@ -39,13 +39,22 @@
       "com.hrznstudio.galacticraft.energy.GalacticraftEnergy"
     ]
   },
+  "custom": {
+    "waila:plugins": {
+      "id": "galacticraft-energy:plugin",
+      "initializer": "com.hrznstudio.galacticraft.energy.compat.waila.GalacticraftEnergyWailaPlugin"
+    }
+  },
   "mixins": [
     "galacticraft-energy.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.0",
+    "fabricloader": ">=0.10.0",
     "minecraft": ">=1.16",
     "libblockattributes_core": ">=0.8"
+  },
+  "suggests": {
+    "waila": ">=2"
   }
 }
