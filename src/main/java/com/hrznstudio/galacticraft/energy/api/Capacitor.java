@@ -23,8 +23,11 @@
 package com.hrznstudio.galacticraft.energy.api;
 
 import alexiil.mc.lib.attributes.Convertible;
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.impl.CapacitorWrapper;
+import org.jetbrains.annotations.Nullable;
 
 public interface Capacitor extends CapacitorView, Convertible {
     /**
@@ -148,8 +151,32 @@ public interface Capacitor extends CapacitorView, Convertible {
         return this.getWrapper();
     }
 
-    default CapacitorWrapper getWrapper() {
+    default EnergyTransferable getWrapper() {
         return new CapacitorWrapper(this);
+    }
+
+    default CapacitorView createView() {
+        return new CapacitorView() {
+            @Override
+            public EnergyType getEnergyType() {
+                return Capacitor.this.getEnergyType();
+            }
+
+            @Override
+            public int getEnergy() {
+                return Capacitor.this.getEnergy();
+            }
+
+            @Override
+            public int getMaxCapacity() {
+                return Capacitor.this.getMaxCapacity();
+            }
+
+            @Override
+            public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
+                return Capacitor.this.addListener(listener, removalToken);
+            }
+        };
     }
 
     @Override

@@ -18,6 +18,12 @@ repositories {
             includeGroup "alexiil.mc.lib"
         }
     }
+    maven {
+        url "https://bai.jfrog.io/artifactory/maven/"
+        content {
+            includeGroup("mcp.mobius.waila")
+        }
+    }
 }
 
 dependencies {
@@ -25,8 +31,16 @@ dependencies {
     mappings "net.fabricmc:yarn:${project.minecraft}+build.${project.yarn}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader}"
 
-    modCompileOnly "alexiil.mc.lib:libblockattributes-core:${project.lba}"
-    modCompileOnly "teamreborn:energy:${project.tr_energy}"
+    modImplementation("alexiil.mc.lib:libblockattributes-core:${project.lba}")
+    modCompileOnly(fabricApi.module("fabric-api-base", project.fabric)) { transitive = false }
+    modCompileOnly(fabricApi.module("fabric-resource-loader-v0", project.fabric)) { transitive = false }
+
+    modCompileOnly("teamreborn:energy:${project.tr_energy}") { transitive = false }
+    modRuntime("teamreborn:energy:${project.tr_energy}") { transitive = false }
+    modCompileOnly("mcp.mobius.waila:wthit-fabric:$project.wthit") { transitive = false }
+    modRuntime("mcp.mobius.waila:wthit-fabric:$project.wthit") { transitive = false }
+
+    modRuntime("net.fabricmc.fabric-api:fabric-api:$project.fabric")
 }
 
 processResources {

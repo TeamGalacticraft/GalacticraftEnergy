@@ -20,15 +20,16 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.internal.compat.tr;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr.tr_gc;
 
 import com.hrznstudio.galacticraft.energy.api.Capacitor;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorTRWrapper implements EnergyStorage {
+public class ItemCapacitorTRWrapper implements EnergyStorage, CompatEnergy {
     private final Capacitor capacitor;
 
     public ItemCapacitorTRWrapper(Capacitor capacitor) {

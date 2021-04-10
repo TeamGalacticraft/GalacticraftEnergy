@@ -20,41 +20,48 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.internal;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr.tr_gc;
 
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.misc.DestroyableRef;
-import alexiil.mc.lib.attributes.misc.Reference;
+import com.hrznstudio.galacticraft.energy.api.CapacitorView;
+import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-public class BreakingWrapperReference<T> implements Reference<T> {
-    private final Reference<T> delegate;
+public class ItemCapacitorViewTRWrapper implements EnergyStorage, CompatEnergy {
+    private final CapacitorView capacitor;
 
-    public BreakingWrapperReference(Reference<T> delegate) {
-        this.delegate = delegate;
+    public ItemCapacitorViewTRWrapper(CapacitorView capacitor) {
+        this.capacitor = capacitor;
     }
 
     @Override
-    public T get() {
-        return this.delegate.get();
+    public double getStored(EnergySide energySide) {
+        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
     }
 
     @Override
-    public boolean set(T value) {
-        return this.delegate.set(value);
+    public void setStored(double v) {
     }
 
     @Override
-    public boolean isValid(T value) {
-        return this.delegate.isValid(value);
+    public double getMaxStoredPower() {
+        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
     }
 
     @Override
-    public boolean set(T value, Simulation simulation) {
-        return this.delegate.set(value, simulation);
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE; //todo tiers or max I/O
     }
 
     @Override
-    public DestroyableRef<T> asDestroyable() {
-        return this.delegate.asDestroyable();
+    public double getMaxInput(EnergySide side) {
+        return 0;
+    }
+
+    @Override
+    public double getMaxOutput(EnergySide side) {
+        return 0;
     }
 }

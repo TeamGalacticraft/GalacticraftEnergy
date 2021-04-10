@@ -38,11 +38,11 @@ public enum TREnergyType implements EnergyType {
 
     @Override
     public int convertToDefault(int amount) {
-        return (int) (amount * 9.6);
+        return (int) Math.floor(amount * 9.6);
     }
 
     @Override
     public int convertFromDefault(int amount) {
-        return (int) (amount * 0.10416666666666667);
+        return (int) Math.floor(amount * 0.10416666666666667);
     }
 }

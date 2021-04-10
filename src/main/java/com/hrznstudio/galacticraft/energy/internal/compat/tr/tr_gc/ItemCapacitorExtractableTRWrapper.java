@@ -20,16 +20,17 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.internal.compat.tr;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr.tr_gc;
 
 import alexiil.mc.lib.attributes.Simulation;
 import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorExtractableTRWrapper implements EnergyStorage {
+public class ItemCapacitorExtractableTRWrapper implements EnergyStorage, CompatEnergy {
     private final EnergyExtractable extractable;
 
     public ItemCapacitorExtractableTRWrapper(EnergyExtractable extractable) {

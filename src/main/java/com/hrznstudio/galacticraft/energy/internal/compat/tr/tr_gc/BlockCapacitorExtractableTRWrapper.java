@@ -20,47 +20,51 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.internal.compat.tr;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr.tr_gc;
 
-import com.hrznstudio.galacticraft.energy.api.CapacitorView;
+import alexiil.mc.lib.attributes.SearchOptions;
+import alexiil.mc.lib.attributes.Simulation;
+import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorViewTRWrapper implements EnergyStorage {
-    private final CapacitorView capacitor;
+public class BlockCapacitorExtractableTRWrapper implements EnergyStorage, CompatEnergy {
+    private final World world;
+    private final BlockPos pos;
 
-    public ItemCapacitorViewTRWrapper(CapacitorView capacitor) {
-        this.capacitor = capacitor;
+    public BlockCapacitorExtractableTRWrapper(World world, BlockPos pos) {
+        this.world = world;
+        this.pos = pos;
     }
 
     @Override
     public double getStored(EnergySide energySide) {
-        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
+        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public void setStored(double v) {
+        GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos).tryExtract(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
+        return this.getStored(EnergySide.UNKNOWN);
     }
 
     @Override
     public EnergyTier getTier() {
-        return EnergyTier.INFINITE; //todo tiers or max I/O
+        return EnergyTier.INFINITE;
     }
 
     @Override
     public double getMaxInput(EnergySide side) {
-        return 0;
-    }
-
-    @Override
-    public double getMaxOutput(EnergySide side) {
         return 0;
     }
 }

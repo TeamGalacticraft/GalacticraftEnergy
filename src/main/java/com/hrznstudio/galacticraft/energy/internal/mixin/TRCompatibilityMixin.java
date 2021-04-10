@@ -26,11 +26,17 @@ import alexiil.mc.lib.attributes.AttributeList;
 import alexiil.mc.lib.attributes.ItemAttributeAdder;
 import alexiil.mc.lib.attributes.misc.Ref;
 import com.hrznstudio.galacticraft.energy.GalacticraftEnergy;
+import com.hrznstudio.galacticraft.energy.api.Capacitor;
+import com.hrznstudio.galacticraft.energy.api.CapacitorView;
 import com.hrznstudio.galacticraft.energy.api.EnergyExtractable;
 import com.hrznstudio.galacticraft.energy.api.EnergyInsertable;
-import com.hrznstudio.galacticraft.energy.internal.BreakingWrapperReference;
-import com.hrznstudio.galacticraft.energy.internal.WrapperBlockPos;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
 import com.hrznstudio.galacticraft.energy.internal.compat.tr.*;
+import com.hrznstudio.galacticraft.energy.internal.compat.tr.gc_tr.TRCapacitor;
+import com.hrznstudio.galacticraft.energy.internal.compat.tr.gc_tr.TRCapacitorView;
+import com.hrznstudio.galacticraft.energy.internal.compat.tr.gc_tr.TREnergyExtractable;
+import com.hrznstudio.galacticraft.energy.internal.compat.tr.gc_tr.TREnergyInsertable;
+import com.hrznstudio.galacticraft.energy.internal.compat.tr.tr_gc.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +47,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import team.reborn.energy.Energy;
+import team.reborn.energy.EnergyHandler;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -52,25 +59,27 @@ import java.util.function.Function;
 public abstract class TRCompatibilityMixin {
     @Inject(method = "onInitialize", at = @At("RETURN"))
     private void addTRCompatibility(CallbackInfo info) {
-        GalacticraftEnergy.CAPACITOR.appendItemAdder(createTRItemAdder(t -> t));
-        GalacticraftEnergy.CAPACITOR_VIEW.appendItemAdder(createTRItemAdder(t -> t));
-        GalacticraftEnergy.INSERTABLE.appendItemAdder(createTRItemAdder(EnergyInsertable::asPureInsertable));
-        GalacticraftEnergy.EXTRACTABLE.appendItemAdder(createTRItemAdder(EnergyExtractable::asPureExtractable));
+        GalacticraftEnergy.CAPACITOR.appendItemAdder(createTRItemAdder(TRCapacitor::new));
+        GalacticraftEnergy.CAPACITOR_VIEW.appendItemAdder(createTRItemAdder(TRCapacitorView::new));
+        GalacticraftEnergy.INSERTABLE.appendItemAdder(createTRItemAdder(TREnergyInsertable::new));
+        GalacticraftEnergy.EXTRACTABLE.appendItemAdder(createTRItemAdder(TREnergyExtractable::new));
         GalacticraftEnergy.CAPACITOR.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, t -> t));
-        GalacticraftEnergy.CAPACITOR_VIEW.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, t -> t));
+        GalacticraftEnergy.CAPACITOR_VIEW.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, Capacitor::createView));
         GalacticraftEnergy.INSERTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyInsertable::asPureInsertable));
         GalacticraftEnergy.EXTRACTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyExtractable::asPureExtractable));
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.CAPACITOR.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
+                Capacitor capacitor = GalacticraftEnergy.CAPACITOR.getFirstOrNull((new WrapperReference<>(new Ref<>((ItemStack)i))));
+                return capacitor != null && !(capacitor instanceof CompatEnergy);
             } else if (i instanceof BlockEntity) {
-                return GalacticraftEnergy.CAPACITOR.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
+                Capacitor capacitor = GalacticraftEnergy.CAPACITOR.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), new WrappedBlockPos(((BlockEntity) i).getPos()));
+                return capacitor != null && !(capacitor instanceof CompatEnergy);
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorTRWrapper(GalacticraftEnergy.CAPACITOR.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
+                return new ItemCapacitorTRWrapper(GalacticraftEnergy.CAPACITOR.getFirst((ItemStack) o));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -79,14 +88,16 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
+                CapacitorView capView = GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull((new WrapperReference<>(new Ref<>((ItemStack)i))));
+                return capView != null && !(capView instanceof CompatEnergy);
             } else if (i instanceof BlockEntity) {
-                return GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
+                CapacitorView capView = GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), new WrappedBlockPos(((BlockEntity) i).getPos()));
+                return capView != null && !(capView instanceof CompatEnergy);
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorViewTRWrapper(GalacticraftEnergy.CAPACITOR_VIEW.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
+                return new ItemCapacitorViewTRWrapper(GalacticraftEnergy.CAPACITOR_VIEW.getFirst((ItemStack) o));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorViewTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -95,14 +106,16 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.INSERTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
+                EnergyInsertable insertable = GalacticraftEnergy.INSERTABLE.getFirstOrNull((new WrapperReference<>(new Ref<>((ItemStack)i))));
+                return insertable != null && !(insertable instanceof CompatEnergy);
             } else if (i instanceof BlockEntity) {
-                return GalacticraftEnergy.INSERTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
+                EnergyInsertable insertable = GalacticraftEnergy.INSERTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), new WrappedBlockPos(((BlockEntity) i).getPos()));
+                return insertable != null && !(insertable instanceof CompatEnergy);
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorInsertableTRWrapper(GalacticraftEnergy.INSERTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
+                return new ItemCapacitorInsertableTRWrapper(GalacticraftEnergy.INSERTABLE.getFirst((ItemStack) o));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorInsertableTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -111,14 +124,16 @@ public abstract class TRCompatibilityMixin {
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {
-                return GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(new BreakingWrapperReference<>(new Ref<>((ItemStack) i))) != null;
+                EnergyExtractable extractable = GalacticraftEnergy.EXTRACTABLE.getFirstOrNull((new WrapperReference<>(new Ref<>((ItemStack)i))));
+                return extractable != null && !(extractable instanceof CompatEnergy);
             } else if (i instanceof BlockEntity) {
-                return GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), ((BlockEntity) i).getPos()) != null;
+                EnergyExtractable extractable = GalacticraftEnergy.EXTRACTABLE.getFirstOrNull(Objects.requireNonNull(((BlockEntity) i).getWorld()), new WrappedBlockPos(((BlockEntity) i).getPos()));
+                return extractable != null && !(extractable instanceof CompatEnergy);
             }
             return false;
         }, o -> {
             if (o instanceof ItemStack) {
-                return new ItemCapacitorExtractableTRWrapper(GalacticraftEnergy.EXTRACTABLE.getFirst(new BreakingWrapperReference<>(new Ref<>((ItemStack) o))));
+                return new ItemCapacitorExtractableTRWrapper(GalacticraftEnergy.EXTRACTABLE.getFirst((ItemStack) o));
             } else if (o instanceof BlockEntity) {
                 return new BlockCapacitorExtractableTRWrapper(((BlockEntity) o).getWorld(), ((BlockEntity) o).getPos());
             }
@@ -127,20 +142,20 @@ public abstract class TRCompatibilityMixin {
     }
 
     @Unique
-    private static <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TREnergyWrapper, T> function) {
-        if (pos instanceof WrapperBlockPos) return;
+    private static <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TRCapacitor, T> function) {
+        if (pos instanceof CompatBreaker) return;
         BlockEntity entity = world.getBlockEntity(pos);
         if (Energy.valid(entity)) {
-            to.offer(function.apply(new TREnergyWrapper(Energy.of(entity).side(to.getSearchDirection()))));
+            to.offer(function.apply(new TRCapacitor(Energy.of(entity).side(to.getSearchDirection()))));
         }
     }
 
     @Unique
-    private static <T> ItemAttributeAdder<T> createTRItemAdder(Function<TREnergyWrapper, T> function) {
+    private static <T> ItemAttributeAdder<T> createTRItemAdder(Function<EnergyHandler, T> function) {
         return (reference, limitedConsumer, itemAttributeList) -> {
-            if (reference instanceof BreakingWrapperReference) return;
+            if (reference instanceof CompatBreaker) return;
             if (Energy.valid(reference.get())) {
-                itemAttributeList.offer(function.apply(new TREnergyWrapper(Energy.of(reference.get()))));
+                itemAttributeList.offer(function.apply(Energy.of(reference.get())));
             }
         };
     }

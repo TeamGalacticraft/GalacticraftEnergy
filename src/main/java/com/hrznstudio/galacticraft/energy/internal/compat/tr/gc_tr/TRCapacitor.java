@@ -20,35 +20,31 @@
  * SOFTWARE.
  */
 
-package com.hrznstudio.galacticraft.energy.internal.compat.tr;
+package com.hrznstudio.galacticraft.energy.internal.compat.tr.gc_tr;
 
 import alexiil.mc.lib.attributes.ListenerRemovalToken;
 import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.Simulation;
-import com.hrznstudio.galacticraft.energy.api.Capacitor;
-import com.hrznstudio.galacticraft.energy.api.EnergyTransferable;
-import com.hrznstudio.galacticraft.energy.api.EnergyType;
+import com.hrznstudio.galacticraft.energy.api.*;
 import com.hrznstudio.galacticraft.energy.compat.tr.TREnergyType;
+import com.hrznstudio.galacticraft.energy.impl.CapacitorWrapper;
+import com.hrznstudio.galacticraft.energy.internal.compat.CompatEnergy;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.EnergyHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class TREnergyWrapper implements Capacitor, EnergyTransferable {
-    private final Map<CapacitorListener, ListenerRemovalToken> listeners = new HashMap<>();
+public class TRCapacitor implements Capacitor, EnergyTransferable, CompatEnergy {
     private final EnergyHandler handler;
 
-    public TREnergyWrapper(EnergyHandler handler) {
+    public TRCapacitor(EnergyHandler handler) {
         this.handler = handler;
     }
 
     @Override
     public void setEnergy(int amount) {
         this.handler.set(amount);
-        for (CapacitorListener listener : listeners.keySet()) {
-            listener.onChanged(this);
-        }
     }
 
     @Override
@@ -66,19 +62,44 @@ public class TREnergyWrapper implements Capacitor, EnergyTransferable {
         return ((int) this.handler.getMaxStored());
     }
 
+
     @Override
     public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
-        this.listeners.put(listener, removalToken);
-        return () -> listeners.remove(listener);
+        return null;
     }
 
     @Override
     public int tryExtract(EnergyType type, int amount, Simulation simulation) {
-        return ((int) this.handler.extract(amount));
+        return TREnergyType.INSTANCE.convertTo(type, (int) this.handler.extract(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
     public int tryInsert(EnergyType type, int amount, Simulation simulation) {
-        return amount - ((int) this.handler.insert(amount));
+        return TREnergyType.INSTANCE.convertTo(type, TREnergyType.INSTANCE.convertFrom(type, amount) - ((int) this.handler.insert(TREnergyType.INSTANCE.convertFrom(type, amount))));
+    }
+
+    @Override
+    public EnergyExtractable asPureExtractable() {
+        return new TREnergyExtractable(this.handler);
+    }
+
+    @Override
+    public EnergyTransferable getTransferable() {
+        return new TREnergyTransferable(this.handler);
+    }
+
+    @Override
+    public EnergyInsertable getInsertable() {
+        return new TREnergyInsertable(this.handler);
+    }
+
+    @Override
+    public EnergyExtractable getExtractable() {
+        return new TREnergyExtractable(this.handler);
+    }
+
+    @Override
+    public EnergyTransferable getWrapper() {
+        return new TREnergyTransferable(this.handler);
     }
 }
