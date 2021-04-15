@@ -7,17 +7,17 @@
   "description": "An energy API that utilizes LibBlockAttributes.",
 
   "contact": {
-    "sources": "https://github.com/StellarHorizons/Galacticraft-Energy",
-    "homepage": "https://hrznstudio.com/",
-    "issues": "https://github.com/StellarHorizons/Galacticraft-Energy/issues"
+    "homepage": "https://galacticraft.team",
+    "sources": "https://github.com/TeamGalacticraft/Galacticraft-Energy",
+    "issues": "https://github.com/TeamGalacticraft/Galacticraft-Energy/issues"
   },
 
   "authors": [
     {
-      "name": "Horizon Studio",
+      "name": "Team Galacticraft",
       "contact": {
-        "homepage": "https://hrznstudio.com",
-        "discord": "https://discord.gg/8eVjQrb"
+        "homepage": "https://github.com/TeamGalacticraft",
+        "discord": "https://discord.gg/n3QqhMYyFK"
       }
     }
   ],
@@ -28,6 +28,12 @@
       "contact": {
         "homepage": "https://github.com/marcus8448"
       }
+    },
+    {
+      "name": "JoeZwet",
+      "contact": {
+        "homepage": "https://github.com/JoeZwet"
+      }
     }
   ],
 
@@ -36,13 +42,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.hrznstudio.galacticraft.energy.GalacticraftEnergy"
+      "dev.galacticraft.energy.GalacticraftEnergy"
     ]
   },
   "custom": {
     "waila:plugins": {
       "id": "galacticraft-energy:plugin",
-      "initializer": "com.hrznstudio.galacticraft.energy.compat.waila.GalacticraftEnergyWailaPlugin"
+      "initializer": "dev.galacticraft.energy.compat.waila.GalacticraftEnergyWailaPlugin"
     }
   },
   "mixins": [
