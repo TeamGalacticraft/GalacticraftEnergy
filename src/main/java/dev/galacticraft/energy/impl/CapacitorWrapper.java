@@ -41,12 +41,12 @@ public class CapacitorWrapper implements EnergyTransferable {
     }
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
         return this.capacitor.extract(type, amount, simulation);
     }
 
     @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
+    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
         return this.capacitor.insert(type, amount, simulation);
     }
 }

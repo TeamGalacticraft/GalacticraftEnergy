@@ -29,7 +29,7 @@ import alexiil.mc.lib.attributes.Simulation;
 import dev.galacticraft.energy.impl.CapacitorWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public interface Capacitor extends CapacitorView, Convertible {
+public interface Capacitor extends CapacitorView, Convertible, EnergyTransferable {
     /**
      * Sets the amount of energy in this capacitor
      *
@@ -125,6 +125,14 @@ public interface Capacitor extends CapacitorView, Convertible {
      */
     default int extract(EnergyType type, int amount) {
         return type.convertFrom(this.getEnergyType(), extract(type.convertTo(this.getEnergyType(), amount), Simulation.ACTION));
+    }
+
+    default int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
+        return this.insert(type, amount, simulation);
+    }
+
+    default int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
+        return this.extract(type, amount, simulation);
     }
 
     /**

@@ -48,12 +48,12 @@ public class BlockCapacitorInsertableTRWrapper implements EnergyStorage, CompatE
 
     @Override
     public void setStored(double v) {
-        GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).tryInsert(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
+        GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return 1024 - GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).tryInsert(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return 1024 - GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override

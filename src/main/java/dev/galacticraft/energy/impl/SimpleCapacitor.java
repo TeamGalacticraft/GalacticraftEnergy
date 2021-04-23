@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable {
+public class SimpleCapacitor implements Capacitor, Saveable {
     private final Map<CapacitorListener, ListenerRemovalToken> listeners = new HashMap<>();
     private final EnergyType type;
     private final int capacity;
@@ -75,16 +75,6 @@ public class SimpleCapacitor implements Capacitor, EnergyTransferable, Saveable 
         return () -> {
             if (this.listeners.remove(listener) == null) throw new AssertionError();
         };
-    }
-
-    @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
-        return this.extract(type, amount, simulation);
-    }
-
-    @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
-        return this.insert(type, amount, simulation);
     }
 
     @Override

@@ -44,12 +44,12 @@ public class ItemCapacitorInsertableTRWrapper implements EnergyStorage, CompatEn
 
     @Override
     public void setStored(double v) {
-        this.insertable.tryInsert(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
+        this.insertable.attemptInsertion(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return 1024 - this.insertable.tryInsert(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return 1024 - this.insertable.attemptInsertion(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
