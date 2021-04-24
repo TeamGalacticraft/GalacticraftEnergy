@@ -22,6 +22,6 @@
 
 package dev.galacticraft.energy.internal;
 
-public interface Constants {
+public interface Constant {
     String MOD_ID = "galacticraftenergy";
 }
