@@ -23,20 +23,52 @@
 package dev.galacticraft.energy.api;
 
 import alexiil.mc.lib.attributes.Simulation;
+import dev.galacticraft.energy.impl.DefaultEnergyType;
 
 public interface EnergyExtractable {
     /**
      * Extracts energy from this {@link EnergyExtractable}.
-     *
      * @param type       The type of energy to extract
      * @param amount     The amount of energy in the specified energy type to extract
      * @param simulation Whether to perform the action or just simulate it
      * @return The amount of energy that was extracted (in the specified energy type)
      */
-    int tryExtract(EnergyType type, int amount, Simulation simulation);
+    int attemptExtraction(EnergyType type, int amount, Simulation simulation);
 
-    default EnergyExtractable asPureExtractable() {
-        //noinspection FunctionalExpressionCanBeFolded
-        return EnergyExtractable.this::tryExtract;
+    /**
+     * Extracts energy from this {@link EnergyExtractable}.
+     * @param type       The type of energy to extract
+     * @param amount     The amount of energy in the specified energy type to extract
+     * @return The amount of energy that was extracted (in the specified energy type)
+     */
+    default int extract(EnergyType type, int amount) {
+        return this.attemptExtraction(type, amount, Simulation.ACTION);
+    }
+
+    /**
+     * Extracts energy from this {@link EnergyExtractable}.
+     * @param amount     The amount of energy in the specified energy type to extract
+     * @return The amount of energy that was extracted (in the default energy type [gJ])
+     */
+    default int extract(int amount) {
+        return this.attemptExtraction(DefaultEnergyType.INSTANCE, amount, Simulation.ACTION);
+    }
+
+    default boolean couldExtractAnything() {
+        return this.attemptExtraction(DefaultEnergyType.INSTANCE, 1, Simulation.SIMULATE) == 1;
+    }
+
+    default EnergyExtractable getPureExtractable() {
+        return new EnergyExtractable() {
+            @Override
+            public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
+                return EnergyExtractable.this.getPureExtractable().attemptExtraction(type, amount, simulation);
+            }
+
+            @Override
+            public EnergyExtractable getPureExtractable() {
+                return this;
+            }
+        };
     }
 }

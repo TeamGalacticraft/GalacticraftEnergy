@@ -67,8 +67,8 @@ public abstract class TRCompatibilityMixin {
         GalacticraftEnergy.EXTRACTABLE.appendItemAdder(createTRItemAdder(TREnergyExtractable::new));
         GalacticraftEnergy.CAPACITOR.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, t -> t));
         GalacticraftEnergy.CAPACITOR_VIEW.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, Capacitor::createView));
-        GalacticraftEnergy.INSERTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyInsertable::asPureInsertable));
-        GalacticraftEnergy.EXTRACTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyExtractable::asPureExtractable));
+        GalacticraftEnergy.INSERTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyInsertable::getPureInsertable));
+        GalacticraftEnergy.EXTRACTABLE.appendBlockAdder((world, pos, state, to) -> createTRBlockAdder(world, pos, to, EnergyExtractable::getPureExtractable));
 
         Energy.registerHolder(i -> {
             if (i instanceof ItemStack) {

@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "id": "galacticraft-energy",
+  "id": "galacticraftenergy",
   "version": "${version}",
 
   "name": "Galacticraft Energy",
   "description": "An energy API that utilizes LibBlockAttributes.",
 
   "contact": {
-    "homepage": "https://galacticraft.team",
-    "sources": "https://github.com/TeamGalacticraft/Galacticraft-Energy",
-    "issues": "https://github.com/TeamGalacticraft/Galacticraft-Energy/issues"
+    "homepage": "https://galacticraft.team/",
+    "sources": "https://github.com/TeamGalacticraft/GalacticraftEnergy/",
+    "issues": "https://github.com/TeamGalacticraft/GalacticraftEnergy/issues/"
   },
 
   "authors": [
     {
       "name": "Team Galacticraft",
       "contact": {
-        "homepage": "https://github.com/TeamGalacticraft",
+        "homepage": "https://github.com/TeamGalacticraft/",
         "discord": "https://discord.gg/n3QqhMYyFK"
       }
     }
@@ -38,7 +38,7 @@
   ],
 
   "license": "MIT",
-  "icon": "assets/galacticraft-energy/icon.png",
+  "icon": "assets/galacticraftenergy/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -47,12 +47,12 @@
   },
   "custom": {
     "waila:plugins": {
-      "id": "galacticraft-energy:plugin",
+      "id": "galacticraftenergy:plugin",
       "initializer": "dev.galacticraft.energy.compat.waila.GalacticraftEnergyWailaPlugin"
     }
   },
   "mixins": [
-    "galacticraft-energy.mixins.json"
+    "galacticraftenergy.mixins.json"
   ],
 
   "depends": {

@@ -34,7 +34,7 @@ public enum RejectingEnergyInsertable implements EnergyInsertable, NullVariant {
     NULL;
 
     @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
+    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
         return amount;
     }
 }

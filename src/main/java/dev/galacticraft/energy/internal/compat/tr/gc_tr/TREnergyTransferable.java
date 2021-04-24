@@ -39,22 +39,22 @@ public class TREnergyTransferable implements EnergyTransferable, CompatEnergy {
     }
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
         return type.convertFrom(TREnergyType.INSTANCE, (int) (simulation.isSimulate() ? this.handler.simulate() : this.handler).extract(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
-    public EnergyExtractable asPureExtractable() {
+    public EnergyExtractable getPureExtractable() {
         return new TREnergyExtractable(this.handler);
     }
 
     @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
+    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
         return type.convertFrom(TREnergyType.INSTANCE, (int) (simulation.isSimulate() ? this.handler.simulate() : this.handler).insert(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
-    public EnergyInsertable asPureInsertable() {
+    public EnergyInsertable getPureInsertable() {
         return new TREnergyInsertable(this.handler);
     }
 }

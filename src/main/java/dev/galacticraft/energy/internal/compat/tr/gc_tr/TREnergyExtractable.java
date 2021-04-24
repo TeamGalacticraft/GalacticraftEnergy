@@ -37,12 +37,12 @@ public class TREnergyExtractable implements EnergyExtractable, CompatEnergy {
     }
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
         return type.convertFrom(TREnergyType.INSTANCE, (int) (simulation.isSimulate() ? this.handler.simulate() : this.handler).extract(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
-    public EnergyExtractable asPureExtractable() {
+    public EnergyExtractable getPureExtractable() {
         return this;
     }
 }

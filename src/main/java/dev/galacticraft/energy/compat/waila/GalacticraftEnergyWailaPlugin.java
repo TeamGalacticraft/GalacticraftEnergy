@@ -28,6 +28,7 @@ import alexiil.mc.lib.attributes.AttributeProviderBlockEntity;
 import dev.galacticraft.energy.GalacticraftEnergy;
 import dev.galacticraft.energy.api.CapacitorView;
 import dev.galacticraft.energy.impl.DefaultEnergyType;
+import dev.galacticraft.energy.internal.Constant;
 import mcp.mobius.waila.api.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -44,12 +45,12 @@ import java.awt.*;
 import java.util.List;
 
 public class GalacticraftEnergyWailaPlugin implements IWailaPlugin {
-    private static final Identifier TEXTURE = new Identifier("galacticraft-energy", "textures/gui/waila_energy_overlay.png");
+    private static final Identifier TEXTURE = new Identifier(Constant.MOD_ID, "textures/gui/waila_energy_overlay.png");
     private static final IComponentProvider COMPONENT_PROVIDER = new IComponentProvider() {
         @Override
         public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
             if (GalacticraftEnergy.CAPACITOR_VIEW.getFirstOrNull(accessor.getWorld(), accessor.getPosition()) != null) {
-                tooltip.add(new RenderableTextComponent(new Identifier("galacticraft-energy", "tooltip_renderer"), accessor.getServerData()));
+                tooltip.add(new RenderableTextComponent(new Identifier(Constant.MOD_ID, "tooltip_renderer"), accessor.getServerData()));
             }
         }
     };
@@ -73,7 +74,7 @@ public class GalacticraftEnergyWailaPlugin implements IWailaPlugin {
         registrar.registerComponentProvider(COMPONENT_PROVIDER, TooltipPosition.BODY, AttributeProvider.class);
         registrar.registerComponentProvider(COMPONENT_PROVIDER, TooltipPosition.BODY, AttributeProviderBlockEntity.class);
 
-        registrar.registerTooltipRenderer(new Identifier("galacticraft-energy", "tooltip_renderer"), new ITooltipRenderer() {
+        registrar.registerTooltipRenderer(new Identifier(Constant.MOD_ID, "tooltip_renderer"), new ITooltipRenderer() {
             @Override
             public Dimension getSize(CompoundTag data, ICommonAccessor accessor) {
                 return new Dimension(data.getIntArray("gc_energy").length > 0 ? 128 : 0, (data.getIntArray("gc_energy").length / 2) * 18);

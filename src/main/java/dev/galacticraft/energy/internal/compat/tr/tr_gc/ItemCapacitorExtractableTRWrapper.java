@@ -39,12 +39,12 @@ public class ItemCapacitorExtractableTRWrapper implements EnergyStorage, CompatE
 
     @Override
     public double getStored(EnergySide energySide) {
-        return this.extractable.tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return this.extractable.attemptExtraction(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public void setStored(double v) {
-        this.extractable.tryExtract(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
+        this.extractable.attemptExtraction(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override

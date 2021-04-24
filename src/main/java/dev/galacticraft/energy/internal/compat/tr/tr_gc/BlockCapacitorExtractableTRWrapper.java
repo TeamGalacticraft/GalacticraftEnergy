@@ -45,12 +45,12 @@ public class BlockCapacitorExtractableTRWrapper implements EnergyStorage, Compat
 
     @Override
     public double getStored(EnergySide energySide) {
-        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).tryExtract(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).attemptExtraction(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public void setStored(double v) {
-        GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos).tryExtract(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
+        GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos).attemptExtraction(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override

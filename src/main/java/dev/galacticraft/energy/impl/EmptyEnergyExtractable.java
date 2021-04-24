@@ -37,7 +37,7 @@ public enum EmptyEnergyExtractable implements EnergyExtractable, NullVariant {
     NULL;
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
         return 0;
     }
 }

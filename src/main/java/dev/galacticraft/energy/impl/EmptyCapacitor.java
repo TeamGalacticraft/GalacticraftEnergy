@@ -22,6 +22,7 @@
 
 package dev.galacticraft.energy.impl;
 
+import alexiil.mc.lib.attributes.Convertible;
 import alexiil.mc.lib.attributes.ListenerRemovalToken;
 import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.misc.NullVariant;
@@ -60,5 +61,10 @@ public enum EmptyCapacitor implements Capacitor, NullVariant {
     @Override
     public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
         return null;
+    }
+
+    @Override
+    public <T> T convertTo(Class<T> otherType) {
+        return Convertible.offer(otherType, this);
     }
 }

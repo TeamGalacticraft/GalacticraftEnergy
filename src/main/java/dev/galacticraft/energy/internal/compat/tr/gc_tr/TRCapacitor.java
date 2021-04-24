@@ -65,17 +65,17 @@ public class TRCapacitor implements Capacitor, EnergyTransferable, CompatEnergy 
     }
 
     @Override
-    public int tryExtract(EnergyType type, int amount, Simulation simulation) {
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
         return TREnergyType.INSTANCE.convertTo(type, (int) this.handler.extract(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
-    public int tryInsert(EnergyType type, int amount, Simulation simulation) {
+    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
         return TREnergyType.INSTANCE.convertTo(type, TREnergyType.INSTANCE.convertFrom(type, amount) - ((int) this.handler.insert(TREnergyType.INSTANCE.convertFrom(type, amount))));
     }
 
     @Override
-    public EnergyExtractable asPureExtractable() {
+    public EnergyExtractable getPureExtractable() {
         return new TREnergyExtractable(this.handler);
     }
 
