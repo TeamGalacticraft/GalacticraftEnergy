@@ -21,5 +21,6 @@ jobs:
           wrapper-cache-enabled: true
           dependencies-cache-enabled: true
         env:
+          DISABLE_VERSION_DECORATION: true
           AWS_ACCESS_KEY_ID: ${{ secrets.GC_AWS_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.GC_AWS_KEY }}
