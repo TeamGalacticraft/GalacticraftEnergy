@@ -20,25 +20,20 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.impl;
+package dev.galacticraft.energy.compatibility.waila;
 
-import alexiil.mc.lib.attributes.Simulation;
-import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.api.EnergyTransferable;
-import dev.galacticraft.energy.api.EnergyType;
+import alexiil.mc.lib.attributes.AttributeProvider;
+import dev.galacticraft.energy.internal.Constant;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
+import net.minecraft.util.Identifier;
 
-/**
- *
- */
-public record CapacitorWrapper(Capacitor capacitor) implements EnergyTransferable {
+public class GalacticraftEnergyWailaPlugin implements IWailaPlugin {
 
     @Override
-    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.extract(type, amount, simulation);
-    }
+    public void register(IRegistrar registrar) {
+        registrar.addBlockData(EnergyBlockDataProvider.INSTANCE, AttributeProvider.class);
+        registrar.addRenderer(new Identifier(Constant.MOD_ID, "tooltip_renderer"), EnergyBlockTooltipRenderer.INSTANCE);
 
-    @Override
-    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.insert(type, amount, simulation);
     }
 }

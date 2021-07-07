@@ -20,25 +20,36 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.impl;
+package dev.galacticraft.energy.internal.compatibility.tr;
 
 import alexiil.mc.lib.attributes.Simulation;
-import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.api.EnergyTransferable;
-import dev.galacticraft.energy.api.EnergyType;
+import alexiil.mc.lib.attributes.misc.DestroyableRef;
+import alexiil.mc.lib.attributes.misc.Reference;
 
-/**
- *
- */
-public record CapacitorWrapper(Capacitor capacitor) implements EnergyTransferable {
+public record WrapperReference<T>(Reference<T> wrapped) implements Reference<T>, CompatibilityLoopBreaker {
 
     @Override
-    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.extract(type, amount, simulation);
+    public T get() {
+        return this.wrapped.get();
     }
 
     @Override
-    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.insert(type, amount, simulation);
+    public boolean set(T value) {
+        return this.wrapped.set(value);
+    }
+
+    @Override
+    public boolean isValid(T value) {
+        return this.wrapped.isValid(value);
+    }
+
+    @Override
+    public boolean set(T value, Simulation simulation) {
+        return this.wrapped.set(value, simulation);
+    }
+
+    @Override
+    public DestroyableRef<T> asDestroyable() {
+        return this.wrapped.asDestroyable();
     }
 }

@@ -20,25 +20,11 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.impl;
-
-import alexiil.mc.lib.attributes.Simulation;
-import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.api.EnergyTransferable;
-import dev.galacticraft.energy.api.EnergyType;
-
 /**
- *
+ * Internal wrapper components for compatibility with TR Energy.
+ * You shouldn't have to touch these classes.
  */
-public record CapacitorWrapper(Capacitor capacitor) implements EnergyTransferable {
+@ApiStatus.Internal
+package dev.galacticraft.energy.internal.compatibility.tr;
 
-    @Override
-    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.extract(type, amount, simulation);
-    }
-
-    @Override
-    public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {
-        return this.capacitor.insert(type, amount, simulation);
-    }
-}
+import org.jetbrains.annotations.ApiStatus;

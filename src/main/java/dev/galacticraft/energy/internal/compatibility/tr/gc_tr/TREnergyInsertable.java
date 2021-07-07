@@ -20,21 +20,16 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.gc_tr;
+package dev.galacticraft.energy.internal.compatibility.tr.gc_tr;
 
 import alexiil.mc.lib.attributes.Simulation;
 import dev.galacticraft.energy.api.EnergyInsertable;
 import dev.galacticraft.energy.api.EnergyType;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import team.reborn.energy.EnergyHandler;
 
-public class TREnergyInsertable implements EnergyInsertable, CompatEnergy {
-    private final EnergyHandler handler;
-
-    public TREnergyInsertable(EnergyHandler handler) {
-        this.handler = handler;
-    }
+public record TREnergyInsertable(EnergyHandler handler) implements EnergyInsertable, CompatibilityEnergyWrapper {
 
     @Override
     public int attemptInsertion(EnergyType type, int amount, Simulation simulation) {

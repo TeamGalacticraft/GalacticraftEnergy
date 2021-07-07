@@ -20,23 +20,18 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.gc_tr;
+package dev.galacticraft.energy.internal.compatibility.tr.gc_tr;
 
 import alexiil.mc.lib.attributes.ListenerRemovalToken;
 import alexiil.mc.lib.attributes.ListenerToken;
 import alexiil.mc.lib.attributes.Simulation;
 import dev.galacticraft.energy.api.*;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.EnergyHandler;
 
-public class TRCapacitor implements Capacitor, EnergyTransferable, CompatEnergy {
-    private final EnergyHandler handler;
-
-    public TRCapacitor(EnergyHandler handler) {
-        this.handler = handler;
-    }
+public record TRCapacitor(EnergyHandler handler) implements Capacitor, EnergyTransferable, CompatibilityEnergyWrapper {
 
     @Override
     public void setEnergy(int amount) {
@@ -57,7 +52,6 @@ public class TRCapacitor implements Capacitor, EnergyTransferable, CompatEnergy 
     public int getMaxCapacity() {
         return ((int) this.handler.getMaxStored());
     }
-
 
     @Override
     public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
@@ -92,10 +86,5 @@ public class TRCapacitor implements Capacitor, EnergyTransferable, CompatEnergy 
     @Override
     public EnergyExtractable getExtractable() {
         return new TREnergyExtractable(this.handler);
-    }
-
-    @Override
-    public EnergyTransferable getWrapper() {
-        return new TREnergyTransferable(this.handler);
     }
 }

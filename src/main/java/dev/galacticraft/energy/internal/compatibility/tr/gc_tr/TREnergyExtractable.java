@@ -20,29 +20,24 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.compat.tr;
+package dev.galacticraft.energy.internal.compatibility.tr.gc_tr;
 
+import alexiil.mc.lib.attributes.Simulation;
+import dev.galacticraft.energy.api.EnergyExtractable;
 import dev.galacticraft.energy.api.EnergyType;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
+import team.reborn.energy.EnergyHandler;
 
-/**
- * TechReborn Energy
- * Reference Values:
- * 1 Coal = 4000.0
- * 1 Plank = 750.0
- */
-public enum TREnergyType implements EnergyType {
-    /**
-     * TechReborn Energy type
-     */
-    INSTANCE;
+public record TREnergyExtractable(EnergyHandler handler) implements EnergyExtractable, CompatibilityEnergyWrapper {
 
     @Override
-    public int convertToDefault(int amount) {
-        return (int) Math.floor(amount * 9.6);
+    public int attemptExtraction(EnergyType type, int amount, Simulation simulation) {
+        return type.convertFrom(TREnergyType.INSTANCE, (int) (simulation.isSimulate() ? this.handler.simulate() : this.handler).extract(TREnergyType.INSTANCE.convertFrom(type, amount)));
     }
 
     @Override
-    public int convertFromDefault(int amount) {
-        return (int) Math.floor(amount * 0.10416666666666667);
+    public EnergyExtractable getPureExtractable() {
+        return this;
     }
 }

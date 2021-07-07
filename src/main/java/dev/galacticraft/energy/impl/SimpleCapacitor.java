@@ -24,12 +24,10 @@ package dev.galacticraft.energy.impl;
 
 import alexiil.mc.lib.attributes.ListenerRemovalToken;
 import alexiil.mc.lib.attributes.ListenerToken;
-import alexiil.mc.lib.attributes.Simulation;
 import alexiil.mc.lib.attributes.misc.Saveable;
 import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.api.EnergyTransferable;
 import dev.galacticraft.energy.api.EnergyType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -78,13 +76,13 @@ public class SimpleCapacitor implements Capacitor, Saveable {
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag tag) {
+    public NbtCompound toTag(NbtCompound tag) {
         tag.putInt("Energy", energy);
         return tag;
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
+    public void fromTag(NbtCompound tag) {
         this.energy = tag.getInt("Energy");
     }
 }

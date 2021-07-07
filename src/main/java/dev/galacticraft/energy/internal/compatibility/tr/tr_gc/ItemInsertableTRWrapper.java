@@ -20,44 +20,37 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.tr_gc;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
-import dev.galacticraft.energy.api.CapacitorView;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import alexiil.mc.lib.attributes.Simulation;
+import dev.galacticraft.energy.api.EnergyInsertable;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorViewTRWrapper implements EnergyStorage, CompatEnergy {
-    private final CapacitorView capacitor;
-
-    public ItemCapacitorViewTRWrapper(CapacitorView capacitor) {
-        this.capacitor = capacitor;
-    }
+public record ItemInsertableTRWrapper(
+        EnergyInsertable insertable) implements EnergyStorage, CompatibilityEnergyWrapper {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
+        return 0;
     }
 
     @Override
     public void setStored(double v) {
+        this.insertable.attemptInsertion(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
+        return 1024 - this.insertable.attemptInsertion(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public EnergyTier getTier() {
-        return EnergyTier.INFINITE; //todo tiers or max I/O
-    }
-
-    @Override
-    public double getMaxInput(EnergySide side) {
-        return 0;
+        return EnergyTier.INFINITE;
     }
 
     @Override

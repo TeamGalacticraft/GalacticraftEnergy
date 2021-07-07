@@ -20,35 +20,44 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
+import dev.galacticraft.energy.api.CapacitorView;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
+import team.reborn.energy.EnergySide;
+import team.reborn.energy.EnergyStorage;
+import team.reborn.energy.EnergyTier;
 
-public class WrappedBlockPos extends BlockPos implements CompatBreaker {
-    public WrappedBlockPos(int i, int j, int k) {
-        super(i, j, k);
+public record ItemCapacitorViewTRWrapper(
+        CapacitorView capacitor) implements EnergyStorage, CompatibilityEnergyWrapper {
+
+    @Override
+    public double getStored(EnergySide energySide) {
+        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
     }
 
-    public WrappedBlockPos(double d, double e, double f) {
-        super(d, e, f);
+    @Override
+    public void setStored(double v) {
     }
 
-    public WrappedBlockPos(Vec3d pos) {
-        super(pos);
+    @Override
+    public double getMaxStoredPower() {
+        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
     }
 
-    public WrappedBlockPos(Position pos) {
-        super(pos);
+    @Override
+    public EnergyTier getTier() {
+        return EnergyTier.INFINITE; //todo tiers or max I/O
     }
 
-    public WrappedBlockPos(Vec3i pos) {
-        super(pos);
+    @Override
+    public double getMaxInput(EnergySide side) {
+        return 0;
     }
 
-    public WrappedBlockPos(BlockPos pos) {
-        super(pos);
+    @Override
+    public double getMaxOutput(EnergySide side) {
+        return 0;
     }
 }
