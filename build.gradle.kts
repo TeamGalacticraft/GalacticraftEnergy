@@ -44,24 +44,27 @@ val wthitVersion           = project.property("wthit.version").toString()
 plugins {
     java
     `maven-publish`
-    id("fabric-loom") version("0.8-SNAPSHOT")
+    id("fabric-loom") version("0.9-SNAPSHOT")
     id("org.cadixdev.licenser") version("0.6.1")
 }
 
-configure<JavaPluginConvention> {
+java {
     sourceCompatibility = JavaVersion.VERSION_16
     targetCompatibility = JavaVersion.VERSION_16
+    withSourcesJar()
 }
 
 group = modGroup
 version = modVersion + getVersionDecoration()
 
 base {
-    archivesBaseName = modName
+    archivesName.set(modName)
 }
 
 loom {
-    refmapName = "galacticraftenergy.refmap.json"
+    mixin {
+        add(sourceSets["main"], "galacticraftenergy.refmap.json")
+    }
 }
 
 repositories {
@@ -107,9 +110,7 @@ dependencies {
     }
 
     // Mandatory Dependencies (Included with Jar-In-Jar)
-    include(modApi("alexiil.mc.lib:libblockattributes-core:$lbaVersion") { isTransitive = false })
-    include(modApi("alexiil.mc.lib:libblockattributes-items:$lbaVersion") { isTransitive = false })
-    include(modApi("alexiil.mc.lib:libblockattributes-fluids:$lbaVersion") { isTransitive = false })
+    include(modApi("alexiil.mc.lib:libblockattributes-core:$lbaVersion") {})
 
     // Optional Dependencies
     optionalImplementation("teamreborn:energy:$trEnergyVersion") { isTransitive = false }
@@ -133,10 +134,6 @@ tasks.processResources {
                 file: File -> file.writeText(groovy.json.JsonOutput.toJson(groovy.json.JsonSlurper().parse(file)))
         }
     }
-}
-
-java {
-    withSourcesJar()
 }
 
 tasks.create<Jar>("javadocJar") {
@@ -166,8 +163,8 @@ tasks.withType(JavaCompile::class) {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            groupId = "dev.galacticraft"
-            artifactId = "GalacticraftEnergy"
+            groupId = modGroup
+            artifactId = modName
 
             artifact(tasks.remapJar) { builtBy(tasks.remapJar) }
             artifact(tasks.getByName("sourcesJar", Jar::class)) { builtBy(tasks.remapSourcesJar) }
@@ -200,7 +197,7 @@ fun getVersionDecoration(): String {
     if (project.hasProperty("release")) return ""
 
     var version = "+build"
-    if ("git".exitValue() != 0) {
+    if ("git".exitValue() != 1) {
         version += ".unknown"
     } else {
         val branch = "git branch --show-current".execute()
@@ -221,7 +218,6 @@ fun getVersionDecoration(): String {
 
 // from https://discuss.gradle.org/t/how-to-run-execute-string-as-a-shell-command-in-kotlin-dsl/32235/9
 fun String.execute(): String {
-    print(this)
     val output = ByteArrayOutputStream()
     rootProject.exec {
         commandLine(split("\\s".toRegex()))
