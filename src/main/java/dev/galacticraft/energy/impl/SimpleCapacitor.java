@@ -70,9 +70,7 @@ public class SimpleCapacitor implements Capacitor, Saveable {
     @Override
     public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
         this.listeners.put(listener, removalToken);
-        return () -> {
-            if (this.listeners.remove(listener) == null) throw new AssertionError();
-        };
+        return () -> this.listeners.remove(listener).onListenerRemoved();
     }
 
     @Override

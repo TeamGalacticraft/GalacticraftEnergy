@@ -26,6 +26,7 @@ import alexiil.mc.lib.attributes.AttributeList;
 import alexiil.mc.lib.attributes.misc.NullVariant;
 import dev.galacticraft.energy.GalacticraftEnergy;
 import dev.galacticraft.energy.api.CapacitorView;
+import dev.galacticraft.energy.internal.Constant;
 import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import mcp.mobius.waila.api.IServerDataProvider;
 import net.minecraft.block.entity.BlockEntity;
@@ -57,6 +58,6 @@ public class EnergyBlockDataProvider implements IServerDataProvider<BlockEntity>
                 out[j++] = view.getMaxCapacity();
             }
         }
-        nbt.putIntArray("GCEnergy", out);
+        nbt.putIntArray(Constant.NBT_KEY, out);
     }
 }

@@ -36,19 +36,19 @@ import net.minecraft.util.Identifier;
 import java.awt.*;
 
 public class EnergyBlockTooltipRenderer implements ITooltipRenderer {
-    private static final Identifier TEXTURE = new Identifier(Constant.MOD_ID, "textures/gui/waila_energy_overlay.png");
+    private static final Identifier TEXTURE = new Identifier(Constant.MOD_ID, Constant.ENERGY_OVERLAY_TEXTURE);
     public static final EnergyBlockTooltipRenderer INSTANCE = new EnergyBlockTooltipRenderer();
 
     private EnergyBlockTooltipRenderer() {}
 
     @Override
     public Dimension getSize(NbtCompound nbt, ICommonAccessor iCommonAccessor) {
-        return new Dimension(nbt.getIntArray("GCEnergy").length != 0 ? 128 : 0, (nbt.getIntArray("GCEnergy").length / 2) * 18);
+        return new Dimension(nbt.getIntArray(Constant.NBT_KEY).length != 0 ? 128 : 0, (nbt.getIntArray(Constant.NBT_KEY).length / 2) * 18);
     }
 
     @Override
     public void draw(MatrixStack matrices, NbtCompound nbt, ICommonAccessor iCommonAccessor, int x, int y) {
-        int[] energyLevels = nbt.getIntArray("gc_energy");
+        int[] energyLevels = nbt.getIntArray(Constant.NBT_KEY);
         for (int i = 0; i < energyLevels.length; i += 2) {
             MinecraftClient.getInstance().getTextureManager().bindTexture(TEXTURE);
             DrawableHelper.drawTexture(matrices, x + 1, y + 1 + i * 18, 0, 0, 0, 128, 16, 128, 128);

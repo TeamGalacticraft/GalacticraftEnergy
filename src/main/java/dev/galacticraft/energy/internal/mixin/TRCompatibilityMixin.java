@@ -31,13 +31,13 @@ import dev.galacticraft.energy.api.CapacitorView;
 import dev.galacticraft.energy.api.EnergyExtractable;
 import dev.galacticraft.energy.api.EnergyInsertable;
 import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
+import dev.galacticraft.energy.internal.compatibility.tr.CompatibilityLoopBreaker;
+import dev.galacticraft.energy.internal.compatibility.tr.WrappedBlockPos;
+import dev.galacticraft.energy.internal.compatibility.tr.WrapperReference;
 import dev.galacticraft.energy.internal.compatibility.tr.gc_tr.TRCapacitor;
 import dev.galacticraft.energy.internal.compatibility.tr.gc_tr.TRCapacitorView;
 import dev.galacticraft.energy.internal.compatibility.tr.gc_tr.TREnergyExtractable;
 import dev.galacticraft.energy.internal.compatibility.tr.gc_tr.TREnergyInsertable;
-import dev.galacticraft.energy.internal.compatibility.tr.CompatibilityLoopBreaker;
-import dev.galacticraft.energy.internal.compatibility.tr.WrappedBlockPos;
-import dev.galacticraft.energy.internal.compatibility.tr.WrapperReference;
 import dev.galacticraft.energy.internal.compatibility.tr.tr_gc.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -59,7 +59,7 @@ import java.util.function.Function;
  */
 @Mixin(value = GalacticraftEnergy.class, remap = false)
 public abstract class TRCompatibilityMixin {
-    @Inject(method = "onInitialize", at = @At("RETURN"))
+    @Inject(method = "onInitialize", at = @At("RETURN"), remap = false)
     private void addTRCompatibility(CallbackInfo info) {
         GalacticraftEnergy.CAPACITOR.appendItemAdder(createTRItemAdder(TRCapacitor::new));
         GalacticraftEnergy.CAPACITOR_VIEW.appendItemAdder(createTRItemAdder(TRCapacitorView::new));
@@ -143,8 +143,7 @@ public abstract class TRCompatibilityMixin {
         });
     }
 
-    @Unique
-    private static <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TRCapacitor, T> function) {
+    private static @Unique <T> void createTRBlockAdder(World world, BlockPos pos, AttributeList<T> to, Function<TRCapacitor, T> function) {
         if (pos instanceof CompatibilityLoopBreaker) return;
         BlockEntity entity = world.getBlockEntity(pos);
         if (Energy.valid(entity)) {
@@ -152,8 +151,8 @@ public abstract class TRCompatibilityMixin {
         }
     }
 
-    @Unique
-    private static <T> ItemAttributeAdder<T> createTRItemAdder(Function<EnergyHandler, T> function) {
+
+    private static @Unique <T> ItemAttributeAdder<T> createTRItemAdder(Function<EnergyHandler, T> function) {
         return (reference, limitedConsumer, itemAttributeList) -> {
             if (reference instanceof CompatibilityLoopBreaker) return;
             if (Energy.valid(reference.get())) {
