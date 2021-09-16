@@ -20,47 +20,43 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.tr_gc;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
-import alexiil.mc.lib.attributes.SearchOptions;
+import alexiil.mc.lib.attributes.Simulation;
 import dev.galacticraft.energy.GalacticraftEnergy;
-import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class BlockCapacitorTRWrapper implements EnergyStorage, CompatEnergy {
-    private final World world;
-    private final BlockPos pos;
-
-    public BlockCapacitorTRWrapper(World world, BlockPos pos) {
-        this.world = world;
-        this.pos = pos;
-    }
+public record BlockInsertableTRWrapper(World world,
+                                       BlockPos pos) implements EnergyStorage, CompatibilityEnergyWrapper {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return GalacticraftEnergy.CAPACITOR.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).getEnergyAs(TREnergyType.INSTANCE);
+        return 0;
     }
 
     @Override
     public void setStored(double v) {
-        Capacitor capacitor = GalacticraftEnergy.CAPACITOR.getFirst(this.world, this.pos);
-        capacitor.setEnergy(capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int) v));
+        GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return GalacticraftEnergy.CAPACITOR.getFirst(this.world, this.pos).getMaxCapacityAs(TREnergyType.INSTANCE);
+        return 1024 - GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public EnergyTier getTier() {
-        return EnergyTier.INFINITE; //todo tiers or max I/O
+        return EnergyTier.INFINITE;
+    }
+
+    @Override
+    public double getMaxOutput(EnergySide side) {
+        return 0;
     }
 }

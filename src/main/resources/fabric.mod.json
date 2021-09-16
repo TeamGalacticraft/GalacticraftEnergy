@@ -48,7 +48,7 @@
   "custom": {
     "waila:plugins": {
       "id": "galacticraftenergy:plugin",
-      "initializer": "dev.galacticraft.energy.compat.waila.GalacticraftEnergyWailaPlugin"
+      "initializer": "dev.galacticraft.energy.compatibility.waila.GalacticraftEnergyWailaPlugin"
     }
   },
   "mixins": [

@@ -20,31 +20,30 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.tr_gc;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
+import alexiil.mc.lib.attributes.SearchOptions;
 import alexiil.mc.lib.attributes.Simulation;
-import dev.galacticraft.energy.api.EnergyExtractable;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import dev.galacticraft.energy.GalacticraftEnergy;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorExtractableTRWrapper implements EnergyStorage, CompatEnergy {
-    private final EnergyExtractable extractable;
-
-    public ItemCapacitorExtractableTRWrapper(EnergyExtractable extractable) {
-        this.extractable = extractable;
-    }
+public record BlockExtractableTRWrapper(World world, BlockPos pos) implements EnergyStorage, CompatibilityEnergyWrapper {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return this.extractable.attemptExtraction(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).attemptExtraction(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public void setStored(double v) {
-        this.extractable.attemptExtraction(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
+        GalacticraftEnergy.EXTRACTABLE.getFirst(this.world, this.pos).attemptExtraction(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override

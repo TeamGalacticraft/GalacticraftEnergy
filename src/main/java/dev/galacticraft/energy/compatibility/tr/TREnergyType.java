@@ -20,41 +20,28 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr;
+package dev.galacticraft.energy.compatibility.tr;
 
-import alexiil.mc.lib.attributes.Simulation;
-import alexiil.mc.lib.attributes.misc.DestroyableRef;
-import alexiil.mc.lib.attributes.misc.Reference;
+import dev.galacticraft.energy.api.EnergyType;
 
-public class WrapperReference<T> implements Reference<T>, CompatBreaker {
-    private final Reference<T> wrapped;
+/**
+ * TechReborn Energy reference values:
+ * 1 Coal = 4000.0
+ * 1 Plank = 750.0
+ */
+public enum TREnergyType implements EnergyType {
+    /**
+     * TechReborn Energy type
+     */
+    INSTANCE;
 
-    public WrapperReference(Reference<T> wrapped) {
-        this.wrapped = wrapped;
+    @Override
+    public int convertToDefault(int amount) {
+        return (int) Math.floor(amount * 9.6);
     }
 
     @Override
-    public T get() {
-        return this.wrapped.get();
-    }
-
-    @Override
-    public boolean set(T value) {
-        return this.wrapped.set(value);
-    }
-
-    @Override
-    public boolean isValid(T value) {
-        return this.wrapped.isValid(value);
-    }
-
-    @Override
-    public boolean set(T value, Simulation simulation) {
-        return this.wrapped.set(value, simulation);
-    }
-
-    @Override
-    public DestroyableRef<T> asDestroyable() {
-        return this.wrapped.asDestroyable();
+    public int convertFromDefault(int amount) {
+        return (int) Math.floor(amount * 0.10416666666666667);
     }
 }

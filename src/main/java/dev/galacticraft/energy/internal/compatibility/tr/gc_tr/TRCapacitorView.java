@@ -20,11 +20,36 @@
  * SOFTWARE.
  */
 
-/**
- * Internal wrapper components for compatibility with TR Energy.
- * You shouldn't have to touch these classes.
- */
-@ApiStatus.Internal
-package dev.galacticraft.energy.internal.compat.tr;
+package dev.galacticraft.energy.internal.compatibility.tr.gc_tr;
 
-import org.jetbrains.annotations.ApiStatus;
+import alexiil.mc.lib.attributes.ListenerRemovalToken;
+import alexiil.mc.lib.attributes.ListenerToken;
+import dev.galacticraft.energy.api.CapacitorView;
+import dev.galacticraft.energy.api.EnergyType;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
+import org.jetbrains.annotations.Nullable;
+import team.reborn.energy.EnergyHandler;
+
+public record TRCapacitorView(EnergyHandler handler) implements CapacitorView, CompatibilityEnergyWrapper {
+
+    @Override
+    public EnergyType getEnergyType() {
+        return TREnergyType.INSTANCE;
+    }
+
+    @Override
+    public int getEnergy() {
+        return ((int) this.handler.getEnergy());
+    }
+
+    @Override
+    public int getMaxCapacity() {
+        return ((int) this.handler.getMaxStored());
+    }
+
+    @Override
+    public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
+        return null;
+    }
+}

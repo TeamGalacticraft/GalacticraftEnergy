@@ -20,45 +20,43 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.tr_gc;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
-import alexiil.mc.lib.attributes.Simulation;
+import alexiil.mc.lib.attributes.SearchOptions;
 import dev.galacticraft.energy.GalacticraftEnergy;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class BlockCapacitorInsertableTRWrapper implements EnergyStorage, CompatEnergy {
-    private final World world;
-    private final BlockPos pos;
-
-    public BlockCapacitorInsertableTRWrapper(World world, BlockPos pos) {
-        this.world = world;
-        this.pos = pos;
-    }
+public record BlockCapacitorViewTRWrapper(World world, BlockPos pos) implements EnergyStorage, CompatibilityEnergyWrapper {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return 0;
+        return GalacticraftEnergy.CAPACITOR_VIEW.getFirst(this.world, this.pos, SearchOptions.inDirection(Direction.values()[energySide.ordinal()])).getEnergyAs(TREnergyType.INSTANCE);
     }
 
     @Override
     public void setStored(double v) {
-        GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return 1024 - GalacticraftEnergy.INSERTABLE.getFirst(this.world, this.pos).attemptInsertion(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
+        return GalacticraftEnergy.CAPACITOR_VIEW.getFirst(this.world, this.pos).getMaxCapacityAs(TREnergyType.INSTANCE);
     }
 
     @Override
     public EnergyTier getTier() {
         return EnergyTier.INFINITE;
+    }
+
+    @Override
+    public double getMaxInput(EnergySide side) {
+        return 0;
     }
 
     @Override

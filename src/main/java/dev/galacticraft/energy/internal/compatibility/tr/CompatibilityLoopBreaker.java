@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat;
+package dev.galacticraft.energy.internal.compatibility.tr;
 
-public interface CompatEnergy {
+public interface CompatibilityLoopBreaker {
 }

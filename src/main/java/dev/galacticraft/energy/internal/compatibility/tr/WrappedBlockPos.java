@@ -20,41 +20,35 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.gc_tr;
+package dev.galacticraft.energy.internal.compatibility.tr;
 
-import alexiil.mc.lib.attributes.ListenerRemovalToken;
-import alexiil.mc.lib.attributes.ListenerToken;
-import dev.galacticraft.energy.api.CapacitorView;
-import dev.galacticraft.energy.api.EnergyType;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
-import org.jetbrains.annotations.Nullable;
-import team.reborn.energy.EnergyHandler;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Position;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
-public class TRCapacitorView implements CapacitorView, CompatEnergy {
-    private final EnergyHandler handler;
-
-    public TRCapacitorView(EnergyHandler handler) {
-        this.handler = handler;
+public class WrappedBlockPos extends BlockPos implements CompatibilityLoopBreaker {
+    public WrappedBlockPos(int i, int j, int k) {
+        super(i, j, k);
     }
 
-    @Override
-    public EnergyType getEnergyType() {
-        return TREnergyType.INSTANCE;
+    public WrappedBlockPos(double d, double e, double f) {
+        super(d, e, f);
     }
 
-    @Override
-    public int getEnergy() {
-        return ((int) this.handler.getEnergy());
+    public WrappedBlockPos(Vec3d pos) {
+        super(pos);
     }
 
-    @Override
-    public int getMaxCapacity() {
-        return ((int) this.handler.getMaxStored());
+    public WrappedBlockPos(Position pos) {
+        super(pos);
     }
 
-    @Override
-    public @Nullable ListenerToken addListener(CapacitorListener listener, ListenerRemovalToken removalToken) {
-        return null;
+    public WrappedBlockPos(Vec3i pos) {
+        super(pos);
+    }
+
+    public WrappedBlockPos(BlockPos pos) {
+        super(pos);
     }
 }

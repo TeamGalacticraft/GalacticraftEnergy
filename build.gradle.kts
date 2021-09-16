@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+import java.io.ByteArrayOutputStream
+import java.io.OutputStream
 import java.time.Year
 import java.time.format.DateTimeFormatter
 
@@ -42,24 +44,27 @@ val wthitVersion           = project.property("wthit.version").toString()
 plugins {
     java
     `maven-publish`
-    id("fabric-loom") version("0.7-SNAPSHOT")
-    id("org.cadixdev.licenser") version("0.5.1")
+    id("fabric-loom") version("0.9-SNAPSHOT")
+    id("org.cadixdev.licenser") version("0.6.1")
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+    withSourcesJar()
 }
 
 group = modGroup
 version = modVersion + getVersionDecoration()
 
 base {
-    archivesBaseName = modName
+    archivesName.set(modName)
 }
 
 loom {
-    refmapName = "galacticraftenergy.refmap.json"
+    mixin {
+        add(sourceSets["main"], "galacticraftenergy.refmap.json")
+    }
 }
 
 repositories {
@@ -105,13 +110,11 @@ dependencies {
     }
 
     // Mandatory Dependencies (Included with Jar-In-Jar)
-    include(modApi("alexiil.mc.lib:libblockattributes-core:$lbaVersion") { isTransitive = false })
-    include(modApi("alexiil.mc.lib:libblockattributes-items:$lbaVersion") { isTransitive = false })
-    include(modApi("alexiil.mc.lib:libblockattributes-fluids:$lbaVersion") { isTransitive = false })
+    include(modApi("alexiil.mc.lib:libblockattributes-core:$lbaVersion") {})
 
     // Optional Dependencies
     optionalImplementation("teamreborn:energy:$trEnergyVersion") { isTransitive = false }
-    optionalImplementation("mcp.mobius.waila:wthit-fabric:$wthitVersion") { isTransitive = false }
+    optionalImplementation("mcp.mobius.waila:wthit:fabric-$wthitVersion") { isTransitive = false }
 
     // Other Dependencies
     modRuntime("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
@@ -133,10 +136,6 @@ tasks.processResources {
     }
 }
 
-java {
-    withSourcesJar()
-}
-
 tasks.create<Jar>("javadocJar") {
     from(tasks.javadoc)
     archiveClassifier.set("javadoc")
@@ -155,11 +154,17 @@ tasks.jar {
     }
 }
 
+tasks.withType(JavaCompile::class) {
+    dependsOn(tasks.checkLicenses)
+    options.encoding = "UTF-8"
+    options.release.set(16)
+}
+
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            groupId = "dev.galacticraft"
-            artifactId = "GalacticraftEnergy"
+            groupId = modGroup
+            artifactId = modName
 
             artifact(tasks.remapJar) { builtBy(tasks.remapJar) }
             artifact(tasks.getByName("sourcesJar", Jar::class)) { builtBy(tasks.remapSourcesJar) }
@@ -177,7 +182,7 @@ publishing {
 }
 
 license {
-    header = project.file("LICENSE_HEADER.txt")
+    setHeader(project.file("LICENSE_HEADER.txt"))
     include("**/dev/galacticraft/**/*.java")
     include("build.gradle.kts")
     ext {
@@ -188,30 +193,49 @@ license {
 
 // inspired by https://github.com/TerraformersMC/GradleScripts/blob/2.0/ferry.gradle
 fun getVersionDecoration(): String {
-    if((System.getenv("DISABLE_VERSION_DECORATION") ?: "false") == "true") return ""
-    if(project.hasProperty("release")) return ""
+    if ((System.getenv("DISABLE_VERSION_DECORATION") ?: "false") == "true") return ""
+    if (project.hasProperty("release")) return ""
 
     var version = "+build"
-    val branch = "git branch --show-current".execute()
-    if(branch.isNotEmpty() && branch != "main") {
-        version += ".${branch}"
-    }
-    val commitHashLines = "git rev-parse --short HEAD".execute()
-    if(commitHashLines.isNotEmpty()) {
-        version += ".${commitHashLines}"
+    if ("git".exitValue() != 1) {
+        version += ".unknown"
+    } else {
+        val branch = "git branch --show-current".execute()
+        if (branch.isNotEmpty() && branch != "main") {
+            version += ".${branch}"
+        }
+        val commitHashLines = "git rev-parse --short HEAD".execute()
+        if (commitHashLines.isNotEmpty()) {
+            version += ".${commitHashLines}"
+        }
+        val dirty = "git diff-index --quiet HEAD".exitValue()
+        if (dirty != 0) {
+            version += "-modified"
+        }
     }
     return version
 }
 
-// from https://discuss.gradle.org/t/how-to-run-execute-string-as-a-shell-command-in-kotlin-dsl/32235/5
-fun String.execute(workingDir: File = project.file("./")): String {
-    val parts = this.split("\\s".toRegex())
-    val proc = ProcessBuilder(*parts.toTypedArray())
-        .directory(workingDir)
-        .redirectOutput(ProcessBuilder.Redirect.PIPE)
-        .redirectError(ProcessBuilder.Redirect.PIPE)
-        .start()
+// from https://discuss.gradle.org/t/how-to-run-execute-string-as-a-shell-command-in-kotlin-dsl/32235/9
+fun String.execute(): String {
+    val output = ByteArrayOutputStream()
+    rootProject.exec {
+        commandLine(split("\\s".toRegex()))
+        workingDir = rootProject.projectDir
+        isIgnoreExitValue = true
+        standardOutput = output
+        errorOutput = OutputStream.nullOutputStream()
+    }
 
-    proc.waitFor(1, TimeUnit.MINUTES)
-    return proc.inputStream.bufferedReader().readText().trim()
+    return String(output.toByteArray()).trim()
+}
+
+fun String.exitValue(): Int {
+    return rootProject.exec {
+        commandLine(split("\\s".toRegex()))
+        workingDir = rootProject.projectDir
+        isIgnoreExitValue = true
+        standardOutput = OutputStream.nullOutputStream()
+        errorOutput = OutputStream.nullOutputStream()
+    }.exitValue
 }

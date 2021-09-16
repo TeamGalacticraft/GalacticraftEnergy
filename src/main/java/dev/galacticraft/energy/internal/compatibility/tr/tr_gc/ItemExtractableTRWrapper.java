@@ -20,39 +20,41 @@
  * SOFTWARE.
  */
 
-package dev.galacticraft.energy.internal.compat.tr.tr_gc;
+package dev.galacticraft.energy.internal.compatibility.tr.tr_gc;
 
-import dev.galacticraft.energy.api.Capacitor;
-import dev.galacticraft.energy.compat.tr.TREnergyType;
-import dev.galacticraft.energy.internal.compat.CompatEnergy;
+import alexiil.mc.lib.attributes.Simulation;
+import dev.galacticraft.energy.api.EnergyExtractable;
+import dev.galacticraft.energy.compatibility.tr.TREnergyType;
+import dev.galacticraft.energy.internal.compatibility.CompatibilityEnergyWrapper;
 import team.reborn.energy.EnergySide;
 import team.reborn.energy.EnergyStorage;
 import team.reborn.energy.EnergyTier;
 
-public class ItemCapacitorTRWrapper implements EnergyStorage, CompatEnergy {
-    private final Capacitor capacitor;
-
-    public ItemCapacitorTRWrapper(Capacitor capacitor) {
-        this.capacitor = capacitor;
-    }
+public record ItemExtractableTRWrapper(
+        EnergyExtractable extractable) implements EnergyStorage, CompatibilityEnergyWrapper {
 
     @Override
     public double getStored(EnergySide energySide) {
-        return this.capacitor.getEnergyAs(TREnergyType.INSTANCE);
+        return this.extractable.attemptExtraction(TREnergyType.INSTANCE, 1024, Simulation.SIMULATE);
     }
 
     @Override
     public void setStored(double v) {
-        this.capacitor.setEnergy(this.capacitor.getEnergyType().convertFrom(TREnergyType.INSTANCE, (int) v));
+        this.extractable.attemptExtraction(TREnergyType.INSTANCE, (int) v, Simulation.ACTION);
     }
 
     @Override
     public double getMaxStoredPower() {
-        return this.capacitor.getMaxCapacityAs(TREnergyType.INSTANCE);
+        return this.getStored(EnergySide.UNKNOWN);
     }
 
     @Override
     public EnergyTier getTier() {
-        return EnergyTier.INFINITE; //todo tiers or max I/O
+        return EnergyTier.INFINITE;
+    }
+
+    @Override
+    public double getMaxInput(EnergySide side) {
+        return 0;
     }
 }

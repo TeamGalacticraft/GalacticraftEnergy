@@ -148,19 +148,15 @@ public interface Capacitor extends CapacitorView, Convertible, EnergyTransferabl
     }
 
     default EnergyTransferable getTransferable() {
-        return this.getWrapper();
+        return new CapacitorWrapper(this);
     }
 
     default EnergyInsertable getInsertable() {
-        return this.getWrapper();
+        return this.getTransferable();
     }
 
     default EnergyExtractable getExtractable() {
-        return this.getWrapper();
-    }
-
-    default EnergyTransferable getWrapper() {
-        return new CapacitorWrapper(this);
+        return this.getTransferable();
     }
 
     default CapacitorView createView() {
@@ -189,6 +185,6 @@ public interface Capacitor extends CapacitorView, Convertible, EnergyTransferabl
 
     @Override
     default <T> T convertTo(Class<T> otherType) {
-        return Convertible.offer(otherType, this.getWrapper());
+        return Convertible.offer(otherType, this.getTransferable());
     }
 }

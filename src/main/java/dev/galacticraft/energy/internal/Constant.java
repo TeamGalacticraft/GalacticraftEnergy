@@ -22,6 +22,11 @@
 
 package dev.galacticraft.energy.internal;
 
+import org.jetbrains.annotations.ApiStatus;
+
+@ApiStatus.Internal
 public interface Constant {
     String MOD_ID = "galacticraftenergy";
+    String NBT_KEY = "GCEnergy";
+    String ENERGY_OVERLAY_TEXTURE = "textures/gui/waila_energy_overlay.png";
 }
