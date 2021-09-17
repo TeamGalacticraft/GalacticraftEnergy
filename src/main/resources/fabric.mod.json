@@ -49,6 +49,19 @@
     "waila:plugins": {
       "id": "galacticraftenergy:plugin",
       "initializer": "dev.galacticraft.energy.compatibility.waila.GalacticraftEnergyWailaPlugin"
+    },
+    "modmenu": {
+      "badges": [ "library" ],
+      "links": {
+        "modmenu.discord": "https://discord.gg/n3QqhMYyFK",
+        "modmenu.source": "https://github.com/TeamGalacticraft/GalacticraftEnergy",
+        "modmenu.wiki": "https://docs.galacticraft.dev/energy/"
+      },
+      "parent": {
+        "id": "galacticraft",
+        "name": "Galacticraft",
+        "icon": "assets/galacticraftenergy/galacticraft.png"
+      }
     }
   },
   "mixins": [
