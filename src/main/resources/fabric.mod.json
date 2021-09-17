@@ -56,11 +56,6 @@
         "modmenu.discord": "https://discord.gg/n3QqhMYyFK",
         "modmenu.source": "https://github.com/TeamGalacticraft/GalacticraftEnergy",
         "modmenu.wiki": "https://docs.galacticraft.dev/energy/"
-      },
-      "parent": {
-        "id": "galacticraft",
-        "name": "Galacticraft",
-        "icon": "assets/galacticraftenergy/galacticraft.png"
       }
     }
   },
